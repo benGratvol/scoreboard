@@ -1,0 +1,25 @@
+.nav-wraper li:hover{
+ background-color: white;
+
+}
+.nav-wraper li{
+    background-color: lightslategray;
+    border-style: solid;
+    margin-left: 1ch
+}
+.nav-wraper h4 {
+    color: #ffffff
+}   
+
+.nav-link{
+    font-style: oblique;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    font-weight: bold;
+}
+
+
+.sid_bar{
+    width: 10%;
+    z-index: 1;
+}

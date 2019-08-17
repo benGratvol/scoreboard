@@ -1,0 +1,30 @@
+.Verifi_sum { 
+    width: 100%;
+    height: 150px;
+    background-color: palevioletred  ;
+    margin-top: 10px;
+    margin-left: 10px ;
+    margin-bottom: 10px
+}
+
+.Verifi_sum h4 {
+  
+    border-bottom: 2px solid black;
+}
+
+
+.Verifi_sum img {
+    width: 45px;
+    position: relative ;
+    float: left;
+    left: 10px; 
+    margin: 0%;
+
+}
+.Verifi_sum p {
+    margin: 0% ;
+    /* float: left; */
+    font-style: italic ; 
+    text-align: center;
+    font-weight: bold;
+}

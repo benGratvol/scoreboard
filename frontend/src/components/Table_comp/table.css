@@ -1,0 +1,38 @@
+.board-wraper{
+    display: grid ; 
+    grid-template-columns: 1fr 1fr
+
+}
+table{
+    position: relative;
+    width: 99%;
+    margin-left: 5px;
+    box-shadow: 0 12px 16px 0 rgba(114, 137, 218),0 17px 50px 0 rgba(114, 137, 218);
+}
+table, th, td {
+    border: 1px solid black;
+    text-align: center ; 
+  }
+th, td {
+    font-size: 1.2em; 
+    font-style: italic ;
+    font-weight: bold;
+  }
+
+.leftimage{
+    width: 25px ; 
+    height: 25px;
+    float: left;
+} 
+.rightimage{
+    width: 25px ; 
+    height: 25px;
+    float: right;
+} 
+.deposits p {
+color: #ffffff ; 
+}
+
+.bord_name{
+    color: #ffffff ; 
+}

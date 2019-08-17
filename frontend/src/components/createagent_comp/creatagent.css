@@ -1,0 +1,23 @@
+.agent-wraper{
+    position: absolute;
+    border-style: solid;
+    width: 500px;
+    left: 33%;
+    top: 20%;
+}
+.devider{
+    position: relative ; 
+    width: 90%;
+    left: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #7289da; 
+    border-style: solid;
+    border-color: #2c2f33
+}
+.agent-wraper input { 
+    background-color : #2c2f33;
+    border-style:solid ;  
+    border-color: #7289da;
+    color: white 
+}

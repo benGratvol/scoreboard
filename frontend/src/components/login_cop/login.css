@@ -1,0 +1,24 @@
+.login-wraper{
+    position: absolute;
+    width: 500px;
+    left: 30%;
+    top: 30%;
+    border-style: solid ;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.24),0 3px 28px 0 rgba(114, 137, 218); 
+
+}
+.login-wraper button{
+    width: 80%;
+    height: 30px;
+    background-color: #7289da;
+
+  
+}
+.login-wraper input{
+    width: 70%;
+    height: 20px;
+    background-color : #2c2f33;
+    border-style:solid ;  
+    border-color: #7289da;
+    color: white 
+}

@@ -1,0 +1,22 @@
+.Docs_sum { 
+    width: 100%;
+    height: 150px;
+    background-color: SpringGreen   ;
+    margin-top: 10px;
+    margin-left: 10px ;
+    margin-bottom: 10px
+}
+.Docs_sum img {
+    width: 50px;
+    
+    position: absolute;
+    left: 40px;
+}
+.Docs_sum h4 {
+    border-bottom: 2px solid black;
+}
+.Docs_sum p {
+    margin: 0% ;
+    font-style: italic ; 
+    font-weight: bold;
+}

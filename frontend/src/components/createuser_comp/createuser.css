@@ -1,0 +1,24 @@
+.user-wraper{
+    /* position: absolute; */
+    border-style: solid;
+    width: 500px;
+    /* left: 33%;
+    top: 20%; */
+}
+
+.devider{
+    position: relative ; 
+    background-color: #7289da; 
+    width: 90%;
+    left: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-style: solid;
+    border-color: #2c2f33
+
+}
+
+.user-wraper select , input {
+    width: 80%;
+    text-align: center;
+}
