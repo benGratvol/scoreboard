@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import Net from "../../../../../Utils/networking";
 import "./docsum.css";
 
-import DocsIcon from "../../../../../assets/images/icons/docs_2.png";
-
 export default () => {
   const [sumDocs, setsumDocs] = useState({});
 
@@ -18,13 +16,11 @@ export default () => {
   }, []);
   return (
     <div className="Docs_sum">
-      <h4>
-        {/* <img src={DocsIcon} /> */}
-        Docs
-      </h4>
+      <h4>Docs</h4>
       <p>Total : {sumDocs.totalDocs} </p>
-      <p>Has Docs : {sumDocs.hasDocs} </p>
-      <p>Sent Request : {sumDocs.sentreq} </p>
+      <p>No Docs : {(sumDocs.noDocs / sumDocs.totalDocs) * 100}%</p>
+      <p>Has Docs : {(sumDocs.hasDocs / sumDocs.totalDocs) * 100}%</p>
+      <p>Sent Request : {(sumDocs.sentreq / sumDocs.totalDocs) * 100}%</p>
     </div>
   );
 };

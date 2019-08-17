@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import net from "../../../Utils/networking";
+import notifi from "../../../Utils/notifi_util";
 
-import UserContext from "../../../context/notifications_context";
+import UserContext from "../../../context/user_context";
+import NotificationsContext from "../../../context/notifications_context";
 
 import BackOfficeTabil from "./back_off_tabil";
 
-const defultState = {};
+const defultState = {
+  from_date: "",
+  to_date: "",
+  team: "",
+  docs_sent: "",
+  deposit_vertifi: "",
+  free_hand: ""
+};
 
 export default () => {
   const [setings, setSetings] = useState([]);
@@ -14,6 +23,7 @@ export default () => {
   const [query, setQuery] = useState(defultState);
 
   const [val] = useContext(UserContext); // ---> use this
+  const [msg, setMsg] = useContext(NotificationsContext);
 
   useEffect(() => {
     (async function run() {
@@ -32,23 +42,26 @@ export default () => {
   };
   const submitSearch = async ev => {
     ev.preventDefault();
-    console.log(query);
     const url = "/backoffice/search";
     const jsObj = await net.useFetchPut(url, val.token, query);
     if (jsObj.sucsses) {
+      const msg = notifi.Sucsses(jsObj.msg);
+      setMsg(msg);
       setSearch_res(jsObj.data);
-      setQuery(defultState);
+      setQuery({});
+    } else {
+      const msg = notifi.Sucsses(jsObj.msg);
+      setMsg(msg);
     }
-    console.log(jsObj);
   };
 
   return (
     <>
       <form className="search-form" onSubmit={submitSearch}>
         <label>From</label>
-        <input type="date" name="from-date" onChange={ValueChange} />
+        <input type="date" name="from_date" onChange={ValueChange} />
         <label>To</label>
-        <input type="date" name="to-date" onChange={ValueChange} />
+        <input type="date" name="to_date" onChange={ValueChange} />
 
         {setings.agent !== undefined ? (
           <select name="agent" value={query.agent} onChange={ValueChange}>
@@ -92,7 +105,7 @@ export default () => {
           <input
             className=" input-search"
             type="text"
-            name="free-hand"
+            name="free_hand"
             onChange={ValueChange}
           />
           <button>Search</button>

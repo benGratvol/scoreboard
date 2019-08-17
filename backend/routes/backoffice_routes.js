@@ -11,11 +11,21 @@ routes.get("/setup", async (req, res) => {
   res.json({ sucsses: true, msg: "hit", data: setup });
 });
 
+// need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
-  const query = req.body;
   console.log(req.body);
-  const data = await Dep_DB.find(query);
-  res.json({ sucsses: true, msg: "sucsses", data: data });
+  if (req.body.from_date !== "" && req.body.to_date !== "") {
+    const data = await Dep_DB.find({
+      client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
+    });
+    console.log(data);
+    res.json({ sucsses: true, msg: "sucsses", data: data });
+  } else {
+    const query = req.body;
+    console.log(req.body);
+    const data = await Dep_DB.find(query);
+    res.json({ sucsses: true, msg: "sucsses", data: data });
+  }
 });
 
 routes.put("/update", async (req, res) => {
@@ -43,7 +53,7 @@ routes.get("/sumDocs", async (req, res) => {
     const DocFilter = type => Docs.filter(val => val.docs_sent == type);
     const resPaylode = {
       totalDocs: Docs.length,
-      nodocs: DocFilter("no-docs").length,
+      noDocs: DocFilter("no_docs").length,
       hasDocs: DocFilter("has_docs").length,
       sentreq: DocFilter("sent_request").length
     };

@@ -112,7 +112,7 @@ function newDeposit(paylode) {
     cid: cid,
     affiliate: affiliate,
     deposit_vertifi: "no",
-    docs_sent: "no-docs",
+    docs_sent: "no_docs",
     exchangeDate: exchangeDate,
     depositDate: depositDate,
     depositMonth: depositMonth
