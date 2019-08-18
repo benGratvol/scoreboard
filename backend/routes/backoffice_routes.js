@@ -14,19 +14,25 @@ routes.get("/setup", async (req, res) => {
 // need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
   console.log(req.body);
-  if (req.body.from_date !== "" && req.body.to_date !== "") {
+  if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
     const data = await Dep_DB.find({
       client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
     });
     console.log(data);
     res.json({ sucsses: true, msg: "sucsses", data: data });
+  } else if (req.body.free_hand !== undefined) {
+    const data = await Dep_DB.find({ cid: req.body.free_hand });
+    res.json({ sucsses: true, msg: "sucsses", data: data });
   } else {
+    console.log("in else");
     const query = req.body;
-    console.log(req.body);
+    console.log(query);
     const data = await Dep_DB.find(query);
     res.json({ sucsses: true, msg: "sucsses", data: data });
   }
 });
+
+// end of serch need to fix and clean
 
 routes.put("/update", async (req, res) => {
   console.log(req.body);
@@ -65,9 +71,10 @@ routes.get("/sumDocs", async (req, res) => {
 
 routes.get("/verifi", async (req, res) => {
   try {
-    const Docs = await Dep_DB.find().select("deposit_vertifi");
-    const DocFilter = type => Docs.filter(val => val.deposit_vertifi == type);
+    const Veri = await Dep_DB.find().select("deposit_vertifi");
+    const DocFilter = type => Veri.filter(val => val.deposit_vertifi == type);
     const resPaylode = {
+      total: Veri.length,
       chb: DocFilter("chb").length,
       pending: DocFilter("Pending").length,
       verifid: DocFilter("yes").length,

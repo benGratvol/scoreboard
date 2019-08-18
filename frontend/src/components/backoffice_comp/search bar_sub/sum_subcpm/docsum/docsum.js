@@ -18,9 +18,16 @@ export default () => {
     <div className="Docs_sum">
       <h4>Docs</h4>
       <p>Total : {sumDocs.totalDocs} </p>
-      <p>No Docs : {(sumDocs.noDocs / sumDocs.totalDocs) * 100}%</p>
-      <p>Has Docs : {(sumDocs.hasDocs / sumDocs.totalDocs) * 100}%</p>
-      <p>Sent Request : {(sumDocs.sentreq / sumDocs.totalDocs) * 100}%</p>
+      <p>
+        No Docs : {((sumDocs.noDocs / sumDocs.totalDocs) * 100).toFixed(2)}%
+      </p>
+      <p>
+        Has Docs : {((sumDocs.hasDocs / sumDocs.totalDocs) * 100).toFixed(2)}%
+      </p>
+      <p>
+        Sent Request :{((sumDocs.sentreq / sumDocs.totalDocs) * 100).toFixed(2)}
+        %
+      </p>
     </div>
   );
 };

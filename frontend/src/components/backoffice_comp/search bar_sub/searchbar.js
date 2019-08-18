@@ -8,19 +8,19 @@ import NotificationsContext from "../../../context/notifications_context";
 
 import BackOfficeTabil from "./back_off_tabil";
 
-const defultState = {
-  from_date: "",
-  to_date: "",
-  team: "",
-  docs_sent: "",
-  deposit_vertifi: "",
-  free_hand: ""
-};
-
 export default () => {
+  const defultState = {
+    from_date: undefined,
+    to_date: undefined,
+    team: "",
+    docs_sent: "",
+    deposit_vertifi: "",
+    free_hand: ""
+  };
+
   const [setings, setSetings] = useState([]);
   const [search_res, setSearch_res] = useState([]);
-  const [query, setQuery] = useState(defultState);
+  const [query, setQuery] = useState({});
 
   const [val] = useContext(UserContext); // ---> use this
   const [msg, setMsg] = useContext(NotificationsContext);
@@ -59,9 +59,19 @@ export default () => {
     <>
       <form className="search-form" onSubmit={submitSearch}>
         <label>From</label>
-        <input type="date" name="from_date" onChange={ValueChange} />
+        <input
+          type="date"
+          name="from_date"
+          value={query.from_date}
+          onChange={ValueChange}
+        />
         <label>To</label>
-        <input type="date" name="to_date" onChange={ValueChange} />
+        <input
+          type="date"
+          name="to_date"
+          value={query.to_date}
+          onChange={ValueChange}
+        />
 
         {setings.agent !== undefined ? (
           <select name="agent" value={query.agent} onChange={ValueChange}>
@@ -106,6 +116,7 @@ export default () => {
             className=" input-search"
             type="text"
             name="free_hand"
+            value={query.free_hand}
             onChange={ValueChange}
           />
           <button>Search</button>

@@ -18,10 +18,17 @@ export default () => {
   return (
     <div className="Verifi_sum">
       <h4> {/* <img src={VerIcon} /> Verifi */}Verified</h4>
-      <p>Verifid : {sumVerifi.verifid} </p>
-      <p>Pending : {sumVerifi.pending} </p>
-      <p>Not Verifid : {sumVerifi.notverifid} </p>
-      <p>CHB : {sumVerifi.chb} </p>
+      <p>
+        Verifid : {((sumVerifi.verifid / sumVerifi.total) * 100).toFixed(2)}%{" "}
+      </p>
+      <p>
+        Pending : {((sumVerifi.pending / sumVerifi.total) * 100).toFixed(2)}%{" "}
+      </p>
+      <p>
+        Not Verifid :{" "}
+        {((sumVerifi.notverifid / sumVerifi.total) * 100).toFixed(2)}%{" "}
+      </p>
+      <p>CHB : {((sumVerifi.chb / sumVerifi.total) * 100).toFixed(2)}% </p>
     </div>
   );
 };
