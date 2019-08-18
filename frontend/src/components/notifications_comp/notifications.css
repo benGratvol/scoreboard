@@ -28,6 +28,7 @@
     z-index: 1;
     background-color:DarkBlue ; 
     box-shadow: 5px 10px gray;
+    color: white ; 
 } 
 .fail {
     width: 20%;

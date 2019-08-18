@@ -10,7 +10,6 @@ export default () => {
     (async () => {
       const url = "/backoffice/sumDocs";
       const jsonObj = await Net.useFetch(url);
-      console.log(jsonObj.data);
       setsumDocs(jsonObj.data);
     })();
   }, []);

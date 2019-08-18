@@ -16,7 +16,7 @@ routes.get("/test", (req, res) => {
 
 routes.post("/createAgent", TokenAuth, (req, res) => {
   console.log(req.body);
-  NewAgent(req.body.Agent)
+  NewAgent(req.body)
     .save()
     .then(db_res => {
       res.json({ sucsses: true, msg: "new Agent Add" });

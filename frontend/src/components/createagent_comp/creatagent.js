@@ -1,49 +1,47 @@
 import React, { useState, useContext } from "react";
 import "./creatagent.css";
 import UserContext from "../../context/user_context";
+import NotifContxt from "../../context/notifications_context";
+
+import inputVal from "../../Utils/dataValedeter_util";
+import Networking from "../../Utils/networking";
+import notfi from "../../Utils/notifi_util";
 
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
-
-  const [Agent, setAgent] = useState({
+  const [msg, setMsg] = useContext(NotifContxt);
+  const defultState = {
     agent: "",
     firstname: "",
     lastname: "",
     team: val.user.team
-  });
+  };
+  const [Agent, setAgent] = useState(defultState);
 
-  const [msg, setMsg] = useState("");
   const ValueChange = ev => {
     setAgent({ ...Agent, [ev.target.name]: ev.target.value });
   };
-  const addAgent = ev => {
+  const addAgent = async ev => {
     ev.preventDefault();
-    console.log(Agent);
-    const url = "/users/createAgent";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        authorization: val.token
-      },
-      body: JSON.stringify({ Agent })
-    })
-      .then(res => res.json())
-      .then(data => {
-        data.sucsses ? setMsg(data.msg) : setMsg(data.msg);
-        setAgent("");
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const isEmpty = inputVal.notEmpty(Agent);
+    if (!isEmpty.err) {
+      const url = `/users/createAgent`;
+      const token = val.token;
+      const backendRE = await Networking.useFetchPost(url, token, Agent);
+      backendRE.sucsses
+        ? setMsg(notfi.Sucsses(backendRE.msg))
+        : setMsg(notfi.Fail(backendRE.msg));
+      setAgent(defultState);
+    } else {
+      const msg = notfi.Warning(isEmpty.errMessage);
+      setMsg(msg);
+    }
   };
 
   return (
     <div>
       <form className="agent-wraper" onSubmit={addAgent}>
         <p className="devider">Create Agent</p>
-        <h3>{msg}</h3>
         <p>Agent Name</p>
         <input name="agent" value={Agent.agent} onChange={ValueChange} />
         <p>First Name</p>

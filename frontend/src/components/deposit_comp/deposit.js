@@ -6,7 +6,9 @@ import NotificationsContext from "../../context/notifications_context";
 // ************************* Utils *************
 import network from "../../Utils/networking";
 import notfi from "../../Utils/notifi_util";
-// ************************* End Utils  ********
+import inputVal from "../../Utils/dataValedeter_util";
+// ************************* End Utils  *******
+
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
   const defultState = {
@@ -32,35 +34,41 @@ export default () => {
     setDeposit({ ...Deposit, [ev.target.name]: ev.target.value });
   };
   const addDeposit = ev => {
+    const valinput = inputVal.notEmpty(Deposit);
     setLoding(true);
     ev.preventDefault();
-    console.log(Deposit);
-    const url = "/stats/addDeposit";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        authorization: val.token
-      },
-      body: JSON.stringify(Deposit)
-    })
-      .then(res => res.json())
-      .then(data => {
-        setLoding(false);
-
-        if (data.sucsses) {
-          const msg = notfi.Sucsses(data.msg);
-          setMsg(msg);
-          setDeposit(defultState);
-        } else {
-          const msg = notfi.Fail(data.msg);
-          setMsg(msg);
-        }
+    if (!valinput.err) {
+      const url = "/stats/addDeposit";
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          authorization: val.token
+        },
+        body: JSON.stringify(Deposit)
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(res => res.json())
+        .then(data => {
+          setLoding(false);
+
+          if (data.sucsses) {
+            const msg = notfi.Sucsses(data.msg);
+            setMsg(msg);
+            setDeposit(defultState);
+          } else {
+            const msg = notfi.Fail(data.msg);
+            setMsg(msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      const msg = notfi.Warning(valinput.errMessage);
+      setMsg(msg);
+      setLoding(false);
+    }
   };
   // get Users Team
   useEffect(() => {
