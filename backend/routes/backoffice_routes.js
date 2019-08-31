@@ -5,31 +5,39 @@ const Dep_DB = require("../schemas/deposit_schema");
 const Agent_DB = require("../schemas/agent_schema");
 const Brand_DB = require("../schemas/brand_schema");
 
+const Loger = require("../utils/loger");
 routes.get("/setup", async (req, res) => {
-  const agents = await Agent_DB.find().select("agent team");
-  const brands = await Brand_DB.find().select("brandname");
-  const setup = teamAndAgentuniq(agents);
-  const paylode = {
-    setup: setup,
-    brands: brands
-  };
-  res.json({ sucsses: true, msg: "hit", data: setup, brands: brands });
+  try {
+    const agents = await Agent_DB.find().select("agent team");
+    const brands = await Brand_DB.find().select("brandname");
+    const setup = teamAndAgentuniq(agents);
+    res.json({ sucsses: true, msg: "hit", data: setup, brands: brands });
+  } catch (err) {
+    Loger.errlog("Error in back End setup");
+    console.log(err);
+    res.status(500);
+  }
 });
 
 // need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
-  if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
-    const data = await Dep_DB.find({
-      client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
-    });
-    res.json({ sucsses: true, msg: "sucsses", data: data });
-  } else if (req.body.free_hand !== undefined) {
-    const data = await Dep_DB.find({ cid: req.body.free_hand });
-    res.json({ sucsses: true, msg: "sucsses", data: data });
-  } else {
-    const query = req.body;
-    const data = await Dep_DB.find(query);
-    res.json({ sucsses: true, msg: "sucsses", data: data });
+  try {
+    if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
+      const data = await Dep_DB.find({
+        client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
+      });
+      res.json({ sucsses: true, msg: "sucsses", data: data });
+    } else if (req.body.free_hand !== undefined) {
+      const data = await Dep_DB.find({ cid: req.body.free_hand });
+      res.json({ sucsses: true, msg: "sucsses", data: data });
+    } else {
+      const query = req.body;
+      const data = await Dep_DB.find(query);
+      res.json({ sucsses: true, msg: "sucsses", data: data });
+    }
+  } catch (err) {
+    Loger.err("Error in backend search");
+    console.log(err);
   }
 });
 
@@ -48,7 +56,7 @@ routes.put("/update", async (req, res) => {
       });
       res.json({ sucsses: true, msg: "Update Val" });
     } catch (err) {
-      console.log(`[-] Fail to get update [-]\n`);
+      Loger.errlog("Error on update back end");
       console.log(err);
     }
   }
@@ -67,7 +75,7 @@ routes.get("/sumDocs", async (req, res) => {
     };
     res.json({ sucsses: true, msg: "sucsses sumDocs ", data: resPaylode });
   } catch (err) {
-    console.log(`[-] Fail to get sumDocs [-]\n`);
+    Loger.errlog("Error on get sumDocs backend");
     console.log(err);
   }
 });
@@ -85,7 +93,7 @@ routes.get("/verifi", async (req, res) => {
     };
     res.json({ sucsses: true, msg: "sucsses verifi ", data: resPaylode });
   } catch (err) {
-    console.log(`[-] Fail to get verifi [-]\n`);
+    Loger.errlog("Error on verifi backend");
     console.log(err);
   }
 });

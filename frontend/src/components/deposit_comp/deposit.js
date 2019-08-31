@@ -130,12 +130,14 @@ export default () => {
         <input name="amount" value={Deposit.amount} onChange={ValueChange} />
         <p>Currency</p>
         <select name="currency" value={Deposit.currency} onChange={ValueChange}>
+          <option value="">Currency</option>
           <option value="USD">USD</option>
           <option value="GBP">GBP</option>
           <option value="EUR">EUR</option>
         </select>
         <p>Payment Method</p>
         <select name="method" value={Deposit.method} onChange={ValueChange}>
+          <option value="">Method</option>
           <option value="CC">CC</option>
           <option value="Wire_Transfer">Wire Transfer</option>
           <option value="BTC">BTC</option>

@@ -36,7 +36,6 @@ export default () => {
       setSearch_res(jsObjDep.data);
       setSetings(jsObj.data);
       setBrands(jsObj.brands);
-      console.log(jsObj);
     })();
   }, []);
 
@@ -51,7 +50,7 @@ export default () => {
       const msg = notifi.Sucsses(jsObj.msg);
       setMsg(msg);
       setSearch_res(jsObj.data);
-      setQuery({});
+      // setQuery("");
     } else {
       const msg = notifi.Sucsses(jsObj.msg);
       setMsg(msg);
@@ -76,43 +75,30 @@ export default () => {
           onChange={ValueChange}
         />
 
-        {brands !== undefined ? (
-          <select name="brand" value={query.brand} onChange={ValueChange}>
-            <option>Select Brand</option>
-            {brands.map(t => (
-              <option value={t.brandname}>{t.brandname}</option>
-            ))}
-          </select>
-        ) : (
-          <select>
-            <option>Select Agent</option>
-          </select>
-        )}
-
-        {setings.agent !== undefined ? (
-          <select name="agent" value={query.agent} onChange={ValueChange}>
-            <option>Select Agent</option>
-            {setings.agent.map(t => (
-              <option value={t}>{t}</option>
-            ))}
-          </select>
-        ) : (
-          <select>
-            <option>Select Agent</option>
-          </select>
-        )}
-        {setings.team !== undefined ? (
-          <select name="team" value={query.team} onChange={ValueChange}>
-            <option>Select Team</option>
-            {setings.team.map(t => (
-              <option value={t}>{t}</option>
-            ))}
-          </select>
-        ) : (
-          <select>
-            <option>Select Team</option>
-          </select>
-        )}
+        <select name="brand" value={query.brand} onChange={ValueChange}>
+          <option>Select Brand</option>
+          {brands !== undefined ? (
+            brands.map(t => <option value={t.brandname}>{t.brandname}</option>)
+          ) : (
+            <></>
+          )}
+        </select>
+        <select name="agent" value={query.agent} onChange={ValueChange}>
+          <option>Select Agent</option>
+          {setings.agent !== undefined ? (
+            setings.agent.map(t => <option value={t}>{t}</option>)
+          ) : (
+            <></>
+          )}
+        </select>
+        <select name="team" value={query.team} onChange={ValueChange}>
+          <option>Select Team</option>
+          {setings.team !== undefined ? (
+            setings.team.map(t => <option value={t}>{t}</option>)
+          ) : (
+            <></>
+          )}
+        </select>
 
         <select name="docs_sent" onChange={ValueChange}>
           <option>Docs out Come </option>

@@ -3,33 +3,32 @@ const express = require("express");
 const routes = express.Router();
 
 const FormattedDate = require("../utils/time_format");
+const Loger = require("../utils/loger");
 const TokenAuth = require("../routes_middleware/token_auth");
 const AdminAuth = require("../routes_middleware/admin_auth");
 const AgentSchema = require("../schemas/agent_schema");
 const UserSchema = require("../schemas/user_schema");
 
-routes.get("/test", (req, res) => {
-  console.log("Hit");
-});
-
 // ******** Agents **************
 
-routes.post("/createAgent", TokenAuth, (req, res) => {
-  console.log(req.body);
-  NewAgent(req.body)
-    .save()
-    .then(db_res => {
-      res.json({ sucsses: true, msg: "new Agent Add" });
-    })
-    .catch(err => console.log(err));
+routes.post("/createAgent", TokenAuth, async (req, res) => {
+  try {
+    const agent = await NewAgent(req.body).save();
+    res.json({ sucsses: true, msg: "new Agent Add" });
+  } catch (err) {
+    Loger.errlog("Error on createAgent");
+    console.log(err);
+    res.status(500).json({ sucsses: false, msg: "fail" });
+  }
 });
 routes.get("/getAgent", AdminAuth, async (req, res) => {
   try {
     const allAgents = await AgentSchema.find();
     res.json({ sucsses: true, msg: "get All Agents", data: allAgents });
   } catch (err) {
+    Loger.errlog("Error on getAgent");
     console.log(err);
-    res.json({ sucsses: false, msg: "fail" });
+    res.status(500).json({ sucsses: false, msg: "fail" });
   }
 });
 
@@ -40,25 +39,25 @@ routes.put("/getAgentbyTeam", TokenAuth, async (req, res) => {
     );
     res.json({ sucsses: true, msg: "get Agents", data: getTeam });
   } catch (err) {
+    Loger.errlog("Error on getAgentbyTeam");
     console.log(err);
-    res.json({ sucsses: false, msg: "fail" });
+    res.status(500).json({ sucsses: false, msg: "fail" });
   }
 });
 
 // **********  Users *************
 // AdminAuth;
-routes.post("/createUser", (req, res) => {
-  console.log(req.body);
-  NewUser(req.body)
-    .save()
-    .then(db_res => {
-      res.status(200).json({ sucsses: true, msg: "new user Creater" });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ sucsses: false, msg: "Server Error" });
-    });
+routes.post("/createUser", AdminAuth, async (req, res) => {
+  try {
+    const user = await NewUser(req.body).save();
+    res.status(200).json({ sucsses: true, msg: "new user Creater" });
+  } catch (err) {
+    Loger.errlog("Error on createUser");
+    console.log(err);
+    res.status(500).json({ sucsses: false, msg: "fail" });
+  }
 });
+//*        not in use mabe later  */
 routes.get("/getUser", AdminAuth, async (req, res) => {
   UserSchema.find()
     .then(db_res => {
