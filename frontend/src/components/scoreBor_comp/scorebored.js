@@ -35,7 +35,7 @@ export default () => {
     let total = 0;
     let runone = true;
     const url = `/stats/getTeamDeposits/${val.user.team}`;
-    setInterval(() => {
+    const timer = setInterval(() => {
       time = time + 3;
       fetch(url)
         .then(res => res.json())
@@ -70,6 +70,9 @@ export default () => {
         });
       settimer(time);
     }, 3000);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (

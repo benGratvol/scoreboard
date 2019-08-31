@@ -1,25 +1,31 @@
 import React, { useState, useContext } from "react";
 
-import Usefetch from "../../../Utils/networking";
-import notifi from "../../../Utils/notifi_util";
-
 import NotificationsContext from "../../../context/notifications_context";
 
+import inputVal from "../../../Utils/dataValedeter_util";
+import Usefetch from "../../../Utils/networking";
+import notfi from "../../../Utils/notifi_util";
+
 const DefultState = { processors: "" };
-export default () => {
+export default prop => {
   const [Pro, setPro] = useState(DefultState);
   const [msg, setMsg] = useContext(NotificationsContext);
 
   const addPro = async ev => {
     ev.preventDefault();
-    const url = "/setings/addprosseor";
-    const res = await Usefetch.useFetchPost(url, "", Pro);
-    if (res.sucsses) {
-      const msg = notifi.Sucsses(res.msg);
-      setMsg(msg);
+
+    const isEmpty = inputVal.notEmpty(Pro);
+    if (!isEmpty.err) {
+      const url = `/setings/addprosseor`;
+      const token = prop.token;
+      console.log(token);
+      const backendRE = await Usefetch.useFetchPost(url, token, Pro);
+      backendRE.sucsses
+        ? setMsg(notfi.Sucsses(backendRE.msg))
+        : setMsg(notfi.Fail(backendRE.msg));
       setPro(DefultState);
     } else {
-      const msg = notifi.Fail(res.msg);
+      const msg = notfi.Warning(isEmpty.errMessage);
       setMsg(msg);
     }
   };
@@ -30,14 +36,14 @@ export default () => {
   return (
     <div>
       <form onSubmit={addPro}>
-        <h3>Add Processor</h3>
+        <p>Add Processor</p>
         <input
           onChange={ValueChange}
           value={Pro.processors}
           name="processors"
           type="text"
         />
-        <button>add processor</button>
+        <button>ADD</button>
       </form>
     </div>
   );

@@ -16,6 +16,7 @@ export default () => {
     amount: "",
     currency: "",
     method: "",
+    brand: "",
     team: val.user.team,
     processor: "",
     client_dor: "",
@@ -29,6 +30,7 @@ export default () => {
 
   const [Prosseor, setProsseor] = useState([]);
   const [AFF, setAff] = useState([]);
+  const [Brands, setBrands] = useState([]);
 
   const ValueChange = ev => {
     setDeposit({ ...Deposit, [ev.target.name]: ev.target.value });
@@ -76,17 +78,21 @@ export default () => {
   }, []);
   //----------    optimiz this
   const setup = async () => {
+    const token = val.token;
     const Purl = "/setings/getprosseor";
+    const Burl = "/setings/getbrands";
     const Aurl = "/setings/getaff";
     const Turl = "/users/getAgentbyTeam";
-    const prosseor = await network.useFetch(Purl);
-    const Aff = await network.useFetch(Aurl);
+    const prosseor = await network.useFetchWithToken(Purl, token);
+    const Aff = await network.useFetchWithToken(Aurl, token);
+    const Brands = await network.useFetchWithToken(Burl, token);
     const Team = await network.useFetchPut(Turl, val.token, {
       team: val.user.team
     });
     setProsseor(prosseor.data);
     setAff(Aff.data);
     setAgents(Team.data);
+    setBrands(Brands.data);
   };
 
   // *********************  end of  new 25/7/2019 ******************
@@ -101,6 +107,19 @@ export default () => {
             return (
               <option key={agent._id} value={agent.agent}>
                 {agent.agent}
+              </option>
+            );
+          })}
+        </select>
+        <br />
+
+        <p className="devider">Brand</p>
+        <select name="brand" value={Deposit.brand} onChange={ValueChange}>
+          <option>Select a Brand</option>
+          {Brands.map(brand => {
+            return (
+              <option key={brand._id} value={brand.brandname}>
+                {brand.brandname}
               </option>
             );
           })}

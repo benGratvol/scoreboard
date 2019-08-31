@@ -1,47 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import "./createuser.css";
 
-function checkinput() {}
+import NotifContxt from "../../context/notifications_context";
+import UserContext from "../../context/user_context";
 
+import inputVal from "../../Utils/dataValedeter_util";
+import Networking from "../../Utils/networking";
+import notfi from "../../Utils/notifi_util";
+
+const Deffultstate = {
+  username: "",
+  password: "",
+  role: "",
+  permission: "",
+  team: ""
+};
 export default () => {
-  const [User, setUser] = useState({
-    username: "",
-    password: "",
-    role: "",
-    permission: "",
-    team: ""
-  });
-  const [msg, setMsg] = useState("");
+  const [val] = useContext(UserContext);
+  const [msg, setMsg] = useContext(NotifContxt);
+
+  const [User, setUser] = useState(Deffultstate);
   const ValueChange = ev => {
     setUser({ ...User, [ev.target.name]: ev.target.value });
   };
 
-  const addUser = ev => {
+  const addUser = async ev => {
     ev.preventDefault();
-    console.log(User);
-    const url = "/users/createUser";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(User)
-    })
-      .then(res => res.json())
-      .then(data => {
-        data.sucsses ? setMsg(data.msg) : setMsg(data.msg);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const isEmpty = inputVal.notEmpty(User);
+    if (!isEmpty.err) {
+      const url = `/users/createUser`;
+      const token = val.token;
+      const backendRE = await Networking.useFetchPost(url, token, User);
+      backendRE.sucsses
+        ? setMsg(notfi.Sucsses(backendRE.msg))
+        : setMsg(notfi.Fail(backendRE.msg));
+      setUser(Deffultstate);
+    } else {
+      const msg = notfi.Warning(isEmpty.errMessage);
+      setMsg(msg);
+    }
   };
+
   return (
     <div>
       <form className="user-wraper" onSubmit={addUser}>
-        <h3>{msg}</h3>
-        <p className="devider">Create Agent</p>
+        <p className="devider">Create User</p>
         <p>User Name</p>
         <input
           type="text"
@@ -64,7 +68,7 @@ export default () => {
           <option value="support">Support</option>
           <option value="scoreboard">Scoreboard</option>
         </select>
-        <p />
+        <br></br>
         <p>Permission</p>
         <select
           name="permission"
@@ -85,8 +89,7 @@ export default () => {
           value={User.team}
           onChange={ValueChange}
         />
-
-        <p />
+        <br></br>
         <button>Add User</button>
       </form>
     </div>

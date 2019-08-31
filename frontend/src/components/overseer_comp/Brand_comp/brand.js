@@ -6,37 +6,42 @@ import inputVal from "../../../Utils/dataValedeter_util";
 import Usefetch from "../../../Utils/networking";
 import notfi from "../../../Utils/notifi_util";
 
-const DefultState = { aff: "" };
+const DefultState = { brandname: "" };
 export default prop => {
   const [msg, setMsg] = useContext(NotificationsContext);
-  const [Aff, setAff] = useState(DefultState);
+  const [Brand, setBrand] = useState(DefultState);
 
-  const addAFF = async ev => {
+  const addBrand = async ev => {
     ev.preventDefault();
 
-    const isEmpty = inputVal.notEmpty(Aff);
+    const isEmpty = inputVal.notEmpty(Brand);
     if (!isEmpty.err) {
-      const url = `/setings/addaff`;
+      const url = `/setings/addbrand`;
       const token = prop.token;
-      const backendRE = await Usefetch.useFetchPost(url, token, Aff);
+      const backendRE = await Usefetch.useFetchPost(url, token, Brand);
       backendRE.sucsses
         ? setMsg(notfi.Sucsses(backendRE.msg))
         : setMsg(notfi.Fail(backendRE.msg));
-      setAff(DefultState);
+      setBrand(DefultState);
     } else {
       const msg = notfi.Warning(isEmpty.errMessage);
       setMsg(msg);
     }
   };
   const ValueChange = ev => {
-    setAff({ ...Aff, [ev.target.name]: ev.target.value });
+    setBrand({ ...Brand, [ev.target.name]: ev.target.value });
   };
 
   return (
     <div>
-      <form onSubmit={addAFF}>
-        <p>Add Affiliate</p>
-        <input onChange={ValueChange} value={Aff.aff} name="aff" type="text" />
+      <form onSubmit={addBrand}>
+        <p>Add Brand</p>
+        <input
+          onChange={ValueChange}
+          value={Brand.brandname}
+          name="brandname"
+          type="text"
+        />
         <button>ADD</button>
       </form>
     </div>

@@ -41,6 +41,7 @@ export default props => {
               <th>Registration Date</th>
               <th>CID</th>
               <th>Agent</th>
+              <th>Brand</th>
               <th>Team</th>
               <th>Amount</th>
               <th>Currency</th>
@@ -62,6 +63,7 @@ export default props => {
                   <td>{client.client_dor}</td>
                   <td>{client.cid}</td>
                   <td>{client.agent}</td>
+                  <td>{client.brand}</td>
                   <td>{client.team}</td>
                   <td>{client.amount}</td>
                   <td>{client.currency}</td>

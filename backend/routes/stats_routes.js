@@ -13,6 +13,7 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
     currency,
     method,
     agent,
+    brand,
     team,
     processor,
     client_dor,
@@ -23,6 +24,7 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
   fetch(url)
     .then(res => res.json())
     .then(forXObj => {
+      console.log(`[*] forx convert api [*]`);
       const rates = getMapKeyValue(forXObj.rates, `${currency}USD`);
       const DepositObj = {
         amount: amount,
@@ -30,6 +32,7 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
         method: method,
         amount_in_usd: rates.value.rate * parseInt(amount),
         agent: agent,
+        brand: brand,
         team: team,
         processor: processor,
         client_dor: client_dor,
@@ -39,14 +42,16 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
         depositDate: Dateformat.HumanDate(),
         depositMonth: Dateformat.GetMonth()
       };
-      console.log(DepositObj);
       newDeposit(DepositObj)
         .save()
-        .then(db_res => {
-          console.log(db_res);
+        .then(() => {
+          console.log(`[*] New Deposit Created - by : ${agent} [*] `);
           res.json({ sucsses: true, msg: "add new Deposit " });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(`[-] Error in new Deposit [-]\n`);
+          console.log(err);
+        });
     });
 });
 routes.get("/getTeamDeposits/:team", (req, res) => {
@@ -71,6 +76,7 @@ routes.get("/getTeamDeposits/:team", (req, res) => {
       });
     })
     .catch(err => {
+      console.log(`[-] Error in get Team [-]\n`);
       console.log(err);
     });
 });
@@ -81,6 +87,7 @@ routes.get("/getDeposits", (req, res) => {
       res.json({ sucsses: true, msg: "Get All Dep", data: db_res });
     })
     .catch(err => {
+      console.log(`[-] Error in get Deposit [-]\n`);
       console.log(err);
     });
 });
@@ -91,6 +98,7 @@ function newDeposit(paylode) {
     method,
     amount_in_usd,
     agent,
+    brand,
     team,
     processor,
     client_dor,
@@ -106,6 +114,7 @@ function newDeposit(paylode) {
     method: method,
     amount_in_usd: amount_in_usd,
     agent: agent,
+    brand: brand,
     team: team,
     processor: processor,
     client_dor: client_dor,

@@ -1,38 +1,45 @@
 const express = require("express");
 const route = express.Router();
 const FormattedDate = require("../utils/time_format");
+const Loger = require("../utils/loger");
+
+const adminAuth = require("../routes_middleware/admin_auth");
+const authtoken = require("../routes_middleware/token_auth");
 
 const AFF = require("../schemas/aff_schema");
 
-route.post("/addaff", (req, res) => {
-  console.log(req.body);
+route.post("/addaff", adminAuth, (req, res) => {
   try {
     creatAFF(req.body).save();
+    Loger.log("new Affiliate Add ");
     res.json({ sucsses: true, msg: "new aff Added" });
   } catch (err) {
-    console.log("err on save aff");
+    Loger.errlog("Error add aff");
     console.log(err);
   }
 });
 
-route.get("/getaff", (req, res) => {
-  AFF.find({ active: true })
-    .then(db_res => {
-      res.json({ sucsses: true, msg: "get aff", data: db_res });
-    })
-    .catch(db_err => {
-      console.log(db_err);
-    });
+route.get("/getaff", authtoken, async (req, res) => {
+  try {
+    const activeAff = await AFF.find({ active: true });
+    res.json({ sucsses: true, msg: "get aff", data: activeAff });
+  } catch (err) {
+    Loger.errlog("Error get aff");
+    console.log(err);
+  }
 });
 
-route.put("/remvoeaff", (req, res) => {
-  AFF.findOneAndUpdate({ affname: req.body }, { $set: { active: false } })
-    .then(db_res => {
-      res.json({ sucsses: true, msg: "aff is not Active" });
-    })
-    .catch(db_err => {
-      console.log(db_err);
-    });
+route.put("/remvoeaff", adminAuth, async (req, res) => {
+  try {
+    await AFF.findByIdAndUpdate(
+      { affname: req.body },
+      { $set: { active: false } }
+    );
+    res.json({ sucsses: true, msg: "AFF is not Active" });
+  } catch (err) {
+    Loger.errlog("Error remove aff");
+    console.log(db_err);
+  }
 });
 
 function creatAFF(paylode) {

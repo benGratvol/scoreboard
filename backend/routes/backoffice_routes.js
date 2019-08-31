@@ -3,30 +3,31 @@ const routes = express.Router();
 
 const Dep_DB = require("../schemas/deposit_schema");
 const Agent_DB = require("../schemas/agent_schema");
+const Brand_DB = require("../schemas/brand_schema");
 
 routes.get("/setup", async (req, res) => {
-  console.log(req.body);
   const agents = await Agent_DB.find().select("agent team");
+  const brands = await Brand_DB.find().select("brandname");
   const setup = teamAndAgentuniq(agents);
-  res.json({ sucsses: true, msg: "hit", data: setup });
+  const paylode = {
+    setup: setup,
+    brands: brands
+  };
+  res.json({ sucsses: true, msg: "hit", data: setup, brands: brands });
 });
 
 // need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
-  console.log(req.body);
   if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
     const data = await Dep_DB.find({
       client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
     });
-    console.log(data);
     res.json({ sucsses: true, msg: "sucsses", data: data });
   } else if (req.body.free_hand !== undefined) {
     const data = await Dep_DB.find({ cid: req.body.free_hand });
     res.json({ sucsses: true, msg: "sucsses", data: data });
   } else {
-    console.log("in else");
     const query = req.body;
-    console.log(query);
     const data = await Dep_DB.find(query);
     res.json({ sucsses: true, msg: "sucsses", data: data });
   }
@@ -42,11 +43,12 @@ routes.put("/update", async (req, res) => {
     return res.json({ sucsses: true, msg: "no Val Set", data: data });
   } else {
     try {
-      const update = await Dep_DB.findOneAndUpdate(query, req.body.update, {
+      await Dep_DB.findOneAndUpdate(query, req.body.update, {
         upsert: true
       });
       res.json({ sucsses: true, msg: "Update Val" });
     } catch (err) {
+      console.log(`[-] Fail to get update [-]\n`);
       console.log(err);
     }
   }
@@ -65,6 +67,7 @@ routes.get("/sumDocs", async (req, res) => {
     };
     res.json({ sucsses: true, msg: "sucsses sumDocs ", data: resPaylode });
   } catch (err) {
+    console.log(`[-] Fail to get sumDocs [-]\n`);
     console.log(err);
   }
 });
@@ -80,9 +83,9 @@ routes.get("/verifi", async (req, res) => {
       verifid: DocFilter("yes").length,
       notverifid: DocFilter("no").length
     };
-    console.log(resPaylode);
     res.json({ sucsses: true, msg: "sucsses verifi ", data: resPaylode });
   } catch (err) {
+    console.log(`[-] Fail to get verifi [-]\n`);
     console.log(err);
   }
 });

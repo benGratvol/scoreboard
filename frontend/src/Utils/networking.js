@@ -5,6 +5,16 @@ class networking {
     return jsObj;
   };
 
+  useFetchWithToken = async (url, token) => {
+    const fet = await fetch(url, {
+      headers: {
+        authorization: token
+      }
+    });
+    const jsObj = await fet.json();
+    return jsObj;
+  };
+
   useFetchPut = async (url, token, data) => {
     const fet = await fetch(url, {
       method: "PUT",

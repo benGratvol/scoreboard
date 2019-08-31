@@ -19,6 +19,7 @@ export default () => {
   };
 
   const [setings, setSetings] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [search_res, setSearch_res] = useState([]);
   const [query, setQuery] = useState({});
 
@@ -34,6 +35,8 @@ export default () => {
       const jsObjDep = await net.useFetch(urldep);
       setSearch_res(jsObjDep.data);
       setSetings(jsObj.data);
+      setBrands(jsObj.brands);
+      console.log(jsObj);
     })();
   }, []);
 
@@ -72,6 +75,19 @@ export default () => {
           value={query.to_date}
           onChange={ValueChange}
         />
+
+        {brands !== undefined ? (
+          <select name="brand" value={query.brand} onChange={ValueChange}>
+            <option>Select Brand</option>
+            {brands.map(t => (
+              <option value={t.brandname}>{t.brandname}</option>
+            ))}
+          </select>
+        ) : (
+          <select>
+            <option>Select Agent</option>
+          </select>
+        )}
 
         {setings.agent !== undefined ? (
           <select name="agent" value={query.agent} onChange={ValueChange}>

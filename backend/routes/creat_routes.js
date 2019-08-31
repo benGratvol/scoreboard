@@ -52,7 +52,6 @@ routes.post("/createUser", (req, res) => {
   NewUser(req.body)
     .save()
     .then(db_res => {
-      console.log(db_res);
       res.status(200).json({ sucsses: true, msg: "new user Creater" });
     })
     .catch(err => {
@@ -68,7 +67,6 @@ routes.get("/getUser", AdminAuth, async (req, res) => {
     .catch(err => console.log(err));
 });
 routes.put("/getUsertbyID", AdminAuth, (req, res) => {
-  console.log(req.body);
   UserSchema.find({ team: req.body.id })
     .then(db_res => {
       res.json(db_res);

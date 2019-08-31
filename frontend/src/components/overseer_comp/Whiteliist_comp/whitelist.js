@@ -6,37 +6,39 @@ import inputVal from "../../../Utils/dataValedeter_util";
 import Usefetch from "../../../Utils/networking";
 import notfi from "../../../Utils/notifi_util";
 
-const DefultState = { aff: "" };
-export default prop => {
-  const [msg, setMsg] = useContext(NotificationsContext);
-  const [Aff, setAff] = useState(DefultState);
+const defultState = {
+  ip: ""
+};
 
-  const addAFF = async ev => {
+export default prop => {
+  const [IP, setIp] = useState("");
+  const [msg, setMsg] = useContext(NotificationsContext);
+
+  const addIP = async ev => {
     ev.preventDefault();
 
-    const isEmpty = inputVal.notEmpty(Aff);
+    const isEmpty = inputVal.notEmpty(IP);
     if (!isEmpty.err) {
-      const url = `/setings/addaff`;
+      const url = `/blacklist/addIP`;
       const token = prop.token;
-      const backendRE = await Usefetch.useFetchPost(url, token, Aff);
+      const backendRE = await Usefetch.useFetchPost(url, token, IP);
       backendRE.sucsses
         ? setMsg(notfi.Sucsses(backendRE.msg))
         : setMsg(notfi.Fail(backendRE.msg));
-      setAff(DefultState);
+      setIp(defultState);
     } else {
       const msg = notfi.Warning(isEmpty.errMessage);
       setMsg(msg);
     }
   };
   const ValueChange = ev => {
-    setAff({ ...Aff, [ev.target.name]: ev.target.value });
+    setIp({ ...IP, [ev.target.name]: ev.target.value });
   };
-
   return (
     <div>
-      <form onSubmit={addAFF}>
-        <p>Add Affiliate</p>
-        <input onChange={ValueChange} value={Aff.aff} name="aff" type="text" />
+      <form onSubmit={addIP}>
+        <p>whitelis</p>
+        <input onChange={ValueChange} name="ip" value={IP.ip} type="text" />
         <button>ADD</button>
       </form>
     </div>

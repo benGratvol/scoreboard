@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import Net from "../../../../../Utils/networking";
 import "./verifisum.css";
-import VerIcon from "../../../../../assets/images/icons/verfiy.png";
 
 export default () => {
   const [sumVerifi, setsumVerifi] = useState({});
@@ -17,7 +16,7 @@ export default () => {
   }, []);
   return (
     <div className="Verifi_sum">
-      <h4> {/* <img src={VerIcon} /> Verifi */}Verified</h4>
+      <h4>Verified</h4>
       <p>
         Verifid : {((sumVerifi.verifid / sumVerifi.total) * 100).toFixed(2)}%{" "}
       </p>

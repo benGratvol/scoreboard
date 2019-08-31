@@ -1,3 +1,7 @@
+.nav-wraper nav {
+    height: 50px;
+   
+}
 .nav-wraper li:hover{
  background-color: white;
 

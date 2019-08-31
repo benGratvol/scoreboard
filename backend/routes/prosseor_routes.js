@@ -2,28 +2,34 @@ const express = require("express");
 const route = express.Router();
 const FormattedDate = require("../utils/time_format");
 
+const adminCheck = require("../routes_middleware/admin_auth");
+const AuthToken = require("../routes_middleware/token_auth");
+
 const Prosseor = require("../schemas/processors_schema");
 
-route.post("/addprosseor", (req, res) => {
+route.post("/addprosseor", adminCheck, async (req, res) => {
   try {
-    creatProsseor(req.body).save();
+    const newprosser = await creatProsseor(req.body).save();
+    console.log(`[*] new Prosser Add [*]`);
     res.json({ sucsses: true, msg: "new Prosseor Added" });
-  } catch (e) {
-    console.log("err on save Prosser");
+  } catch (err) {
+    console.log(`[-] Error new Prosser Add [-] \n`);
+    console.log(err);
   }
 });
 
-route.get("/getprosseor", (req, res) => {
+route.get("/getprosseor", AuthToken, (req, res) => {
   Prosseor.find({ active: true })
     .then(db_res => {
       res.json({ sucsses: true, msg: "getProsser", data: db_res });
     })
     .catch(db_err => {
+      console.log(`[-] Error get prosser [-] \n`);
       console.log(db_err);
     });
 });
 
-route.put("/remvoeprocessors", (req, res) => {
+route.put("/remvoeprocessors", adminCheck, (req, res) => {
   Prosseor.findOneAndUpdate(
     { processors: req.body },
     { $set: { active: false } }
@@ -32,6 +38,7 @@ route.put("/remvoeprocessors", (req, res) => {
       res.json({ sucsses: true, msg: "prosseor is not Active" });
     })
     .catch(db_err => {
+      console.log(`[-] Error remove prosser [-] \n`);
       console.log(db_err);
     });
 });
