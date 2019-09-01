@@ -14,6 +14,7 @@ const UserSchema = require("../schemas/user_schema");
 routes.post("/createAgent", TokenAuth, async (req, res) => {
   try {
     const agent = await NewAgent(req.body).save();
+    Loger.log("new Agent Add");
     res.json({ sucsses: true, msg: "new Agent Add" });
   } catch (err) {
     Loger.errlog("Error on createAgent");
@@ -51,6 +52,7 @@ routes.post("/createUser", AdminAuth, async (req, res) => {
   try {
     const user = await NewUser(req.body).save();
     res.status(200).json({ sucsses: true, msg: "new user Creater" });
+    Loger.log("new user Creater");
   } catch (err) {
     Loger.errlog("Error on createUser");
     console.log(err);

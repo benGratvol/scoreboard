@@ -11,20 +11,22 @@ route.post("/addbrand", adminAuth, (req, res) => {
   try {
     creatBrand(req.body).save();
     Loger.log("new Brand Add");
-    res.json({ sucsses: true, msg: "new Brand Added" });
+    res.status(200).json({ sucsses: true, msg: "new Brand Added" });
   } catch (err) {
     Loger.errlog("Error add brand");
     console.log(err);
+    res.status(500);
   }
 });
 
 route.get("/getbrands", authtoken, async (req, res) => {
   try {
     const activeAff = await Brand.find({ active: true });
-    res.json({ sucsses: true, msg: "get brand", data: activeAff });
+    res.status(200).json({ sucsses: true, msg: "get brand", data: activeAff });
   } catch (err) {
     Loger.errlog("Error get brand");
     console.log(err);
+    res.status(500);
   }
 });
 
@@ -34,10 +36,11 @@ route.put("/remvoebrand", adminAuth, async (req, res) => {
       { brandname: req.body },
       { $set: { active: false } }
     );
-    res.json({ sucsses: true, msg: "Brand is not Active" });
+    res.status(200).json({ sucsses: true, msg: "Brand is not Active" });
   } catch (err) {
     Loger.errlog("Error remove brand");
     console.log(db_err);
+    res.status(500).json({ sucsses: true, msg: "Error on ban Brand" });
   }
 });
 

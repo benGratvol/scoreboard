@@ -11,7 +11,9 @@ routes.get("/setup", async (req, res) => {
     const agents = await Agent_DB.find().select("agent team");
     const brands = await Brand_DB.find().select("brandname");
     const setup = teamAndAgentuniq(agents);
-    res.json({ sucsses: true, msg: "hit", data: setup, brands: brands });
+    res
+      .status(200)
+      .json({ sucsses: true, msg: "hit", data: setup, brands: brands });
   } catch (err) {
     Loger.errlog("Error in back End setup");
     console.log(err);
@@ -87,7 +89,7 @@ routes.get("/verifi", async (req, res) => {
     const resPaylode = {
       total: Veri.length,
       chb: DocFilter("chb").length,
-      pending: DocFilter("Pending").length,
+      pending: DocFilter("pending").length,
       verifid: DocFilter("yes").length,
       notverifid: DocFilter("no").length
     };

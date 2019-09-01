@@ -6,7 +6,7 @@ mongoose.connect(DB_con.db_name, {
   useNewUrlParser: true,
   useFindAndModify: false
 });
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   Loger.log("Sucsses on DB Conection");

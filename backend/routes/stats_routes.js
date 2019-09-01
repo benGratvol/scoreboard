@@ -6,6 +6,7 @@ const TokenAuth = require("../routes_middleware/token_auth");
 
 const DepositSchema = require("../schemas/deposit_schema");
 const Dateformat = require("../utils/time_format");
+const Loger = require("../utils/loger");
 
 routes.post("/addDeposit", TokenAuth, (req, res) => {
   const {
@@ -24,7 +25,7 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
   fetch(url)
     .then(res => res.json())
     .then(forXObj => {
-      console.log(`[*] forx convert api [*]`);
+      Loger.log("forx convert api");
       const rates = getMapKeyValue(forXObj.rates, `${currency}USD`);
       const DepositObj = {
         amount: amount,
@@ -45,12 +46,13 @@ routes.post("/addDeposit", TokenAuth, (req, res) => {
       newDeposit(DepositObj)
         .save()
         .then(() => {
-          console.log(`[*] New Deposit Created - by : ${agent} [*] `);
-          res.json({ sucsses: true, msg: "add new Deposit " });
+          Loger.log(`New Deposit Created - by : ${agent}`);
+          res.status(200).json({ sucsses: true, msg: "add new Deposit " });
         })
         .catch(err => {
-          console.log(`[-] Error in new Deposit [-]\n`);
+          Loger.log("Error in new Deposit");
           console.log(err);
+          res.status(500).json({ sucsses: false, msg: "Error new Deposit " });
         });
     });
 });
@@ -62,7 +64,7 @@ routes.get("/getTeamDeposits/:team", (req, res) => {
       const DaleyDeposit = db_res.filter(
         val => val.depositDate == Dateformat.HumanDate()
       );
-      res.json({
+      res.status(200).json({
         sucsses: true,
         data: {
           monthly: getAllDeposits(db_res).sort((a, b) =>
@@ -76,19 +78,21 @@ routes.get("/getTeamDeposits/:team", (req, res) => {
       });
     })
     .catch(err => {
-      console.log(`[-] Error in get Team [-]\n`);
+      Loger.errlog("Error in get Team");
       console.log(err);
+      res.status(500);
     });
 });
 
 routes.get("/getDeposits", (req, res) => {
-  DepositSchema.find()
+  DepositSchema.find({ docs_sent: "no_docs" })
     .then(db_res => {
-      res.json({ sucsses: true, msg: "Get All Dep", data: db_res });
+      res.status(200).json({ sucsses: true, msg: "Get All Dep", data: db_res });
     })
     .catch(err => {
-      console.log(`[-] Error in get Deposit [-]\n`);
+      Loger.errlog("Error in get Deposit");
       console.log(err);
+      res.status(500);
     });
 });
 function newDeposit(paylode) {
