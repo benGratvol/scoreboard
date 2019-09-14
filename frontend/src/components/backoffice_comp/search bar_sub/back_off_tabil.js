@@ -54,7 +54,6 @@ export default props => {
               <th>Edit</th>
             </tr>
           </thead>
-
           <tbody>
             {depRes.map(client => {
               return (

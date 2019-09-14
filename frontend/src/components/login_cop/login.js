@@ -11,7 +11,6 @@ export default () => {
   });
   const login = ev => {
     ev.preventDefault();
-    console.log(userCerd);
     const url = "/login/auth";
     fetch(url, {
       method: "PUT",
@@ -24,7 +23,6 @@ export default () => {
       .then(res => res.json())
       .then(data => {
         // data.sucsses ? setMsg(data.msg) : setMsg(data.msg);
-        console.log(data);
         const user = data.user;
         const token = data.token;
         setval({ user: user, token: token });

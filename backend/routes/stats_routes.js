@@ -95,6 +95,32 @@ routes.get("/getDeposits", (req, res) => {
       res.status(500);
     });
 });
+// ----------------------  new update Deposit - 10/9/2019 ---------
+routes.put("updateDeposit", async (req, res) => {
+  const update = req.body.update;
+  const _id = req.body._id;
+  try {
+    const UpdateDepsit = await DepositSchema.findByIdAndUpdate(
+      { _id: _id },
+      update,
+      {
+        upsert: true
+      }
+    );
+    const msg = "Deposit was updated";
+    Loger.log(msg);
+    res.status(200).json({ sucsses: true, msg: mg });
+  } catch (err) {
+    Loger.errlog("fail to update deposit");
+    console.log(err);
+    res.status(500);
+  }
+});
+
+// --------------------------  end of Update Deposit --------------
+
+// end of routs
+
 function newDeposit(paylode) {
   const {
     amount,

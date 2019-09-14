@@ -50,7 +50,7 @@ export default () => {
       const msg = notifi.Sucsses(jsObj.msg);
       setMsg(msg);
       setSearch_res(jsObj.data);
-      // setQuery("");
+      setQuery({});
     } else {
       const msg = notifi.Sucsses(jsObj.msg);
       setMsg(msg);

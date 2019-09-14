@@ -23,6 +23,7 @@ routes.get("/setup", async (req, res) => {
 
 // need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
+  console.log(req.body);
   try {
     if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
       const data = await Dep_DB.find({
@@ -32,17 +33,19 @@ routes.put("/search", async (req, res) => {
     } else if (req.body.free_hand !== undefined) {
       const data = await Dep_DB.find({ cid: req.body.free_hand });
       res.json({ sucsses: true, msg: "sucsses", data: data });
+    } else if (req.body) {
+      const data = await Dep_DB.find({ cid: req.body });
+      res.json({ sucsses: true, msg: "sucsses", data: data });
     } else {
       const query = req.body;
       const data = await Dep_DB.find(query);
       res.json({ sucsses: true, msg: "sucsses", data: data });
     }
   } catch (err) {
-    Loger.err("Error in backend search");
+    Loger.errlog("Error in backend search");
     console.log(err);
   }
 });
-
 // end of serch need to fix and clean
 
 routes.put("/update", async (req, res) => {
@@ -62,6 +65,18 @@ routes.put("/update", async (req, res) => {
       console.log(err);
     }
   }
+});
+
+routes.put("/updatedeposit", async (req, res) => {
+  console.log(req.body);
+
+  try {
+    await Dep_DB.findOneAndUpdate(query, req.body.update, {
+      upsert: true
+    });
+  } catch (err) {}
+
+  res.json({ sucsses: true, msg: "Update Val" });
 });
 
 // -------------------  sum componet back office ---------------
@@ -101,7 +116,7 @@ routes.get("/verifi", async (req, res) => {
 });
 // -------------------   End sum componet back office ---------------
 
-/// privet funcks ----------------------------
+// ----------------------- privet funcks ----------------------------
 function teamAndAgentuniq(data) {
   const teams = [...new Set(data.map(x => x.team))];
   const agents = [...new Set(data.map(x => x.agent))];

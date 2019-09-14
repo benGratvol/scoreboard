@@ -14,17 +14,25 @@ export default prop => {
       </h4>
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <ul className="navbar-nav mr-auto">
-          <li>
-            <Link to={"/main/Deposit"} className="nav-link">
-              Add Deposit
-            </Link>
-          </li>
-          <li>
-            <Link to={"/main/Createagent"} className="nav-link">
-              Create Agen
-            </Link>
-          </li>
-          {role === "admin" || role === "backoffice" ? (
+          {role === "admin" || role === "team_manager" ? (
+            <li>
+              <Link to={"/main/Deposit"} className="nav-link">
+                Add Deposit
+              </Link>
+            </li>
+          ) : (
+            <></>
+          )}
+          {role === "admin" || role === "team_manager" ? (
+            <li>
+              <Link to={"/main/Createagent"} className="nav-link">
+                Create Agen
+              </Link>
+            </li>
+          ) : (
+            <></>
+          )}
+          {role === "admin" || role === "support" ? (
             <li>
               <Link to={"/main/Backoffice"} className="nav-link">
                 Backoffice
@@ -43,6 +51,11 @@ export default prop => {
               <li>
                 <Link to={"/main/Scoreboard"} className="nav-link">
                   Scoreboard
+                </Link>
+              </li>
+              <li>
+                <Link to={"/main/Edit"} className="nav-link">
+                  Edit Deposit
                 </Link>
               </li>
               <li>

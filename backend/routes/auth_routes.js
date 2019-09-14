@@ -5,6 +5,9 @@ const routes = express.Router();
 const User = require("../schemas/user_schema");
 const JWT_consfig = require("../configs/JWT_config");
 
+const ip_DB = require("../schemas/ipwhitelist_schema");
+const Loger = require("../utils/loger");
+
 routes.put("/auth", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
@@ -42,6 +45,21 @@ routes.put("/auth", async (req, res) => {
         }
       }
     });
+  }
+});
+
+routes.get("/langsetttings", async (req, res) => {
+  const reqIP = req.connection.remoteAddress;
+  const ip = reqIP.replace("::ffff:", "");
+  try {
+    const isok = await ip_DB.findOne({ ip: ip }).select();
+    if (isok.active) {
+      res.stale(200).json({ suscsses: true, Lang: "Welcome to the jungel" });
+    } else {
+      res.stale(200).json({ suscsses: true, Lang: "EN" });
+    }
+  } catch (err) {
+    console.log("faile IP");
   }
 });
 

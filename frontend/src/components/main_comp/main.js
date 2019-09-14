@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState, lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Nav from "../nav_comp/nav";
@@ -11,10 +11,19 @@ import Scoreboard from "../scoreBor_comp/scorebored";
 import Backoffice from "../backoffice_comp/search bar_sub/searchbar";
 import Notifications from "../notifications_comp/notifications";
 import Overseer from "../overseer_comp/overseer";
+import EdditDeposit from "../editdeposit_comp/edditdeposit";
 //--------------  end ofexperimanteal -----------
 
 import UserContext from "../../context/user_context";
 import NotificationsContext from "../../context/notifications_context";
+
+//----------------------------- layzey
+const LazyDeposit = lazy(() => import("../deposit_comp/deposit"));
+const LazyBackoffice = lazy(() =>
+  import("../backoffice_comp/search bar_sub/searchbar")
+);
+
+//----------------------------- End layzey
 
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
@@ -44,17 +53,32 @@ export default () => {
           )}
           <br />
           <Switch>
-            <Route exact path="/main/Deposit" component={Deposit} />
-            <Route exact path="/main/Createagent" component={CreateAgent} />
             {val.user.role === "admin" ? (
-              <div>
+              <>
+                <Suspense fallback={<div>Loding...</div>}>
+                  <Route exact path="/main/Deposit" component={LazyDeposit} />
+                </Suspense>
+                <Route exact path="/main/Createagent" component={CreateAgent} />
                 <Route exact path="/main/Overseer" component={Overseer} />
-                <Route exact path="/main/Backoffice" component={Backoffice} />
-                {/* <Route exact path="/main/Creatuser" component={CreatUser} /> */}
                 <Route exact path="/main/Scoreboard" component={Scoreboard} />
-              </div>
+                <Route exact path="/main/Backoffice" component={Backoffice} />
+                <Route exact path="/main/Edit" component={EdditDeposit}></Route>
+              </>
+            ) : val.user.role === "support" ? (
+              <Suspense fallback={<div>Loding...</div>}>
+                <Route
+                  exact
+                  path="/main/Backoffice"
+                  component={LazyBackoffice}
+                />
+              </Suspense>
+            ) : val.user.role === "team_manager" ? (
+              <>
+                <Route exact path="/main/Deposit" component={Deposit} />
+                <Route exact path="/main/Createagent" component={CreateAgent} />
+              </>
             ) : (
-              <div />
+              <></>
             )}
             <Route exact path="/admin" component={Notfound} />
           </Switch>
