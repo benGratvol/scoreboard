@@ -52,7 +52,7 @@ export default () => {
       setSearch_res(jsObj.data);
       setQuery({});
     } else {
-      const msg = notifi.Sucsses(jsObj.msg);
+      const msg = notifi.Warning(jsObj.msg);
       setMsg(msg);
     }
   };

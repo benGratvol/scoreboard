@@ -33,16 +33,24 @@ routes.put("/search", async (req, res) => {
     } else if (req.body.free_hand !== undefined) {
       const data = await Dep_DB.find({ cid: req.body.free_hand });
       res.json({ sucsses: true, msg: "sucsses", data: data });
-    } else if (req.body) {
-      const data = await Dep_DB.find({ cid: req.body });
-      res.json({ sucsses: true, msg: "sucsses", data: data });
     } else {
       const query = req.body;
       const data = await Dep_DB.find(query);
+      console.log(data);
       res.json({ sucsses: true, msg: "sucsses", data: data });
     }
   } catch (err) {
     Loger.errlog("Error in backend search");
+    console.log(err);
+  }
+});
+
+routes.put("/searcheditdeposit", async (req, res) => {
+  console.log(req.body);
+  try {
+    const data = await Dep_DB.find({ cid: req.body });
+    res.json({ sucsses: true, msg: "sucsses", data: data });
+  } catch (er) {
     console.log(err);
   }
 });
@@ -68,15 +76,22 @@ routes.put("/update", async (req, res) => {
 });
 
 routes.put("/updatedeposit", async (req, res) => {
-  console.log(req.body);
+  const query = { _id: req.body.id };
+
+  console.log(query);
 
   try {
-    await Dep_DB.findOneAndUpdate(query, req.body.update, {
+    const dbres = await Dep_DB.findOneAndUpdate(query, req.body.UpdateDeposit, {
       upsert: true
     });
-  } catch (err) {}
 
-  res.json({ sucsses: true, msg: "Update Val" });
+    Loger.log({ sucsses: true, msg: "Update Val" });
+    res.json({ sucsses: true, msg: "Update Val" });
+  } catch (err) {
+    Loger.errlog(`Error at :  /updatedeposit `);
+    res.json({ sucsses: false, msg: "Update Val" });
+    console.log(err);
+  }
 });
 
 // -------------------  sum componet back office ---------------

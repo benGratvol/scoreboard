@@ -5,16 +5,19 @@ import NotificationsContext from "../../context/notifications_context";
 import Networking from "../../Utils/networking";
 import notfi from "../../Utils/notifi_util";
 
+import "./edditdeposit.css";
+
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
+
   const [eddDeposit, seteddDeposit] = useState([]);
   const [UpdateDeposit, setUpdateDeposit] = useState({});
   const [query, setQuery] = useState("");
 
   const getDeposit = async ev => {
     ev.preventDefault();
-    const url = "/backoffice/search";
+    const url = "/backoffice/searcheditdeposit";
     const jsObj = await Networking.useFetchPut(url, val.token, query);
 
     console.log(jsObj);
@@ -28,7 +31,10 @@ export default () => {
   };
   const sendpaylode = async ev => {
     ev.preventDefault();
-    const paylode = UpdateDeposit;
+    const paylode = {
+      UpdateDeposit: UpdateDeposit,
+      id: query
+    };
     const url = "/backoffice/updatedeposit";
     const res = await Networking.useFetchPut(url, val.token, paylode);
     if (res.sucsses) {
@@ -38,46 +44,86 @@ export default () => {
   };
 
   return (
-    <div>
-      <h3>Eddit Depost</h3>
+    <div className="editDeposit_wraper">
       <from>
         <input type="text" name={"_id"} onChange={valChange}></input>
         <button onClick={getDeposit}>serch</button>
-        <br></br>
+      </from>
+      <br></br>
+      <br></br>
+      <div className="eddit_wraper">
         {eddDeposit.map(val => {
           return (
-            <div>
-              <h3>affiliate</h3>
-              <input
-                name="affiliate"
-                onChange={updatepaylode}
-                placeholder={val.affiliate}
-              ></input>
+            <div className="eddist_form">
+              <h3>Eddit Depost</h3>
+
               <h3>agent</h3>
               <input
                 name="agent"
                 onChange={updatepaylode}
                 placeholder={val.agent}
               ></input>
+              <h3>team</h3>
+              <input
+                name="team"
+                onChange={updatepaylode}
+                placeholder={val.team}
+              ></input>
               <h3>amount</h3>
               <input
+                type="number"
                 name="amount"
                 onChange={updatepaylode}
                 placeholder={val.amount}
               ></input>
+              <h3>amount_in_usd</h3>
+              <input
+                type="number"
+                name="amount_in_usd"
+                onChange={updatepaylode}
+                placeholder={val.amount_in_usd}
+              ></input>
               <h3>brand</h3>
               <input onChange={updatepaylode} placeholder={val.brand}></input>
-              <h3>date</h3>
+              <h3>depositDate</h3>
               <input
+                name="depositDate"
                 onChange={updatepaylode}
                 placeholder={val.depositDate}
               ></input>
+              <h3>affiliate</h3>
+              <input
+                name="affiliate"
+                onChange={updatepaylode}
+                placeholder={val.affiliate}
+              ></input>
               <br></br>
-              <button onClick={sendpaylode}>Update</button>
+              <button
+                onClick={async ev => {
+                  console.log(val._id);
+                  ev.preventDefault();
+                  const paylode = {
+                    UpdateDeposit: UpdateDeposit,
+                    id: val._id
+                  };
+                  const url = "/backoffice/updatedeposit";
+                  const res = await Networking.useFetchPut(
+                    url,
+                    val.token,
+                    paylode
+                  );
+                  if (res.sucsses) {
+                    const msg = notfi.Sucsses(res.msg);
+                    setMsg(msg);
+                  }
+                }}
+              >
+                Update
+              </button>
             </div>
           );
         })}
-      </from>
+      </div>
     </div>
   );
 };

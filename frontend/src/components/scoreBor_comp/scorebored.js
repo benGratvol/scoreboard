@@ -27,6 +27,7 @@ export default () => {
   const [dayley, setDayley] = useState([]);
   const [monthly, setMonthly] = useState([]);
   const [theTotal, setTheTotal] = useState(0);
+  const [TotalDaily, setTotalDaily] = useState(0);
   const [LastDeposit, setLastDeposit] = useState({});
   let Total = 0;
 
@@ -53,14 +54,25 @@ export default () => {
               setMonthly(data.data.monthly);
               setLastDeposit(data.data.lastDep);
               setTheTotal(Total);
+              const toaldayle = data.data.daily.reduce(
+                (acoume, num) => (acoume = acoume + num.total),
+                0
+              );
+              setTotalDaily(toaldayle);
             } else {
               setDepAffect(true);
+              console.log(data.data.daily);
               setDayley(data.data.daily);
               setMonthly(data.data.monthly);
               setLastDeposit(data.data.lastDep);
               Total = total;
               time = 0;
               setTheTotal(Total);
+              const toaldayle = data.data.daily.reduce(
+                (acoume, num) => (acoume = acoume + num),
+                0
+              );
+              setTotalDaily(toaldayle);
               setTimeout(() => {
                 setDepAffect(false);
               }, 10000);
@@ -78,6 +90,7 @@ export default () => {
   return (
     <div>
       <h3>Team : {val.user.team}</h3>
+      <h3>Daily Toatl : {TotalDaily} $</h3>
       <div className="">
         {depAffect ? (
           <DepositAffect agent={LastDeposit.agent} />

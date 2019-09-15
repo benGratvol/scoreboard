@@ -17,7 +17,7 @@ export default prop => {
           <tr>
             <th>Agent</th>
             <th>Deposit</th>
-            <th>Toatl</th>
+            <th>Total</th>
           </tr>
           {data === undefined ? (
             <></>
