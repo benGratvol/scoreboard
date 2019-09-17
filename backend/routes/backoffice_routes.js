@@ -79,6 +79,7 @@ routes.put("/updatedeposit", async (req, res) => {
   const query = { _id: req.body.id };
 
   console.log(query);
+  console.log(req.body);
 
   try {
     const dbres = await Dep_DB.findOneAndUpdate(query, req.body.UpdateDeposit, {

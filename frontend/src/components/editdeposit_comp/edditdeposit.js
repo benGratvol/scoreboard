@@ -45,84 +45,113 @@ export default () => {
 
   return (
     <div className="editDeposit_wraper">
-      <from>
-        <input type="text" name={"_id"} onChange={valChange}></input>
-        <button onClick={getDeposit}>serch</button>
-      </from>
-      <br></br>
-      <br></br>
-      <div className="eddit_wraper">
-        {eddDeposit.map(val => {
-          return (
-            <div className="eddist_form">
-              <h3>Eddit Depost</h3>
-
-              <h3>agent</h3>
-              <input
-                name="agent"
-                onChange={updatepaylode}
-                placeholder={val.agent}
-              ></input>
-              <h3>team</h3>
-              <input
-                name="team"
-                onChange={updatepaylode}
-                placeholder={val.team}
-              ></input>
-              <h3>amount</h3>
-              <input
-                type="number"
-                name="amount"
-                onChange={updatepaylode}
-                placeholder={val.amount}
-              ></input>
-              <h3>amount_in_usd</h3>
-              <input
-                type="number"
-                name="amount_in_usd"
-                onChange={updatepaylode}
-                placeholder={val.amount_in_usd}
-              ></input>
-              <h3>brand</h3>
-              <input onChange={updatepaylode} placeholder={val.brand}></input>
-              <h3>depositDate</h3>
-              <input
-                name="depositDate"
-                onChange={updatepaylode}
-                placeholder={val.depositDate}
-              ></input>
-              <h3>affiliate</h3>
-              <input
-                name="affiliate"
-                onChange={updatepaylode}
-                placeholder={val.affiliate}
-              ></input>
-              <br></br>
-              <button
-                onClick={async ev => {
-                  console.log(val._id);
-                  ev.preventDefault();
-                  const paylode = {
-                    UpdateDeposit: UpdateDeposit,
-                    id: val._id
-                  };
-                  const url = "/backoffice/updatedeposit";
-                  const res = await Networking.useFetchPut(
-                    url,
-                    val.token,
-                    paylode
-                  );
-                  if (res.sucsses) {
-                    const msg = notfi.Sucsses(res.msg);
-                    setMsg(msg);
-                  }
-                }}
-              >
-                Update
-              </button>
-            </div>
-          );
-        })}
+      <p>
+        <from className="serch-form">
+          <input type="text" name={"_id"} onChange={valChange}></input>
+          <button type="submit" onClick={getDeposit}>
+            Search
+          </button>
+        </from>
+      </p>
+      <div></div>
+      <div className="tabil_wraper">
+        <table>
+          <thead>
+            <tr>
+              <th>agent</th>
+              <th>team</th>
+              <th>amount</th>
+              <th>amount_in_usd</th>
+              <th>brand</th>
+              <th>depositDate</th>
+              <th>affiliate</th>
+              <th>edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {eddDeposit.map(dep => {
+              return (
+                <tr>
+                  <td>
+                    <input
+                      name="agent"
+                      onChange={updatepaylode}
+                      placeholder={dep.agent}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="team"
+                      onChange={updatepaylode}
+                      placeholder={dep.team}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="amount"
+                      onChange={updatepaylode}
+                      placeholder={dep.amount}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="amount_in_usd"
+                      onChange={updatepaylode}
+                      placeholder={dep.amount_in_usd}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="brand"
+                      onChange={updatepaylode}
+                      placeholder={dep.brand}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="depositDate"
+                      onChange={updatepaylode}
+                      placeholder={dep.depositDate}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="affiliate"
+                      onChange={updatepaylode}
+                      placeholder={dep.affiliate}
+                    />
+                  </td>
+                  <td>
+                    <button
+                      className="edditbutton"
+                      onClick={async ev => {
+                        ev.preventDefault();
+                        const paylode = {
+                          UpdateDeposit: UpdateDeposit,
+                          id: dep._id
+                        };
+                        const url = "/backoffice/updatedeposit";
+                        const res = await Networking.useFetchPut(
+                          url,
+                          val.token,
+                          paylode
+                        );
+                        if (res.sucsses) {
+                          const msg = notfi.Sucsses(res.msg);
+                          setMsg(msg);
+                        }
+                      }}
+                    >
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
