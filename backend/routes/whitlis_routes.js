@@ -6,7 +6,6 @@ const FormattedDate = require("../utils/time_format");
 const Loger = require("../utils/loger");
 
 route.post("/addIP", AuthAdmin, async (req, res) => {
-  console.log(req.connection.remoteAddress);
   const ip = req.body.ip;
   try {
     const newentry = await newIP(ip).save();

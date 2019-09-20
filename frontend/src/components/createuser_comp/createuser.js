@@ -9,16 +9,16 @@ import inputVal from "../../Utils/dataValedeter_util";
 import Networking from "../../Utils/networking";
 import notfi from "../../Utils/notifi_util";
 
-const Deffultstate = {
-  username: "",
-  password: "",
-  role: "",
-  permission: "",
-  team: ""
-};
 export default () => {
+  const Deffultstate = {
+    username: "",
+    password: "",
+    role: "",
+    permission: "",
+    team: ""
+  };
   const [val] = useContext(UserContext);
-  const [msg, setMsg] = useContext(NotifContxt);
+  const [, setMsg] = useContext(NotifContxt);
 
   const [User, setUser] = useState(Deffultstate);
   const ValueChange = ev => {
@@ -44,6 +44,9 @@ export default () => {
 
   return (
     <div>
+      {/*--------------------------- proto type ---------------- */}
+      {/* <CreatUser_View user={User} ValueChange={ValueChange} addUser={addUser} /> */}
+      {/*--------------------------- end proto type ---------------- */}
       <form className="user-wraper" onSubmit={addUser}>
         <p className="devider">Create User</p>
         <p>User Name</p>

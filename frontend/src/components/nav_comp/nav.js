@@ -9,9 +9,9 @@ export default prop => {
   const { name, role } = prop.prop;
   return (
     <div className="nav-wraper">
-      <h4>
+      {/* <h4>
         Welcome {name} Role :{role}{" "}
-      </h4>
+      </h4> */}
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <ul className="navbar-nav mr-auto">
           {role === "admin" || role === "team_manager" ? (
@@ -32,22 +32,15 @@ export default prop => {
           ) : (
             <></>
           )}
-          {role === "admin" || role === "support" ? (
-            <li>
-              <Link to={"/main/Backoffice"} className="nav-link">
-                Backoffice
-              </Link>
-            </li>
-          ) : (
-            <div />
-          )}
+
+          <li>
+            <Link to={"/main/Backoffice"} className="nav-link">
+              Backoffice
+            </Link>
+          </li>
+
           {role === "admin" ? (
             <>
-              {/* <li>
-                <Link to={"/main/Creatuser"} className="nav-link">
-                  Creat User
-                </Link>
-              </li> */}
               <li>
                 <Link to={"/main/Scoreboard"} className="nav-link">
                   Scoreboard

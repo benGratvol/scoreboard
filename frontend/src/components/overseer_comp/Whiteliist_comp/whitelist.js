@@ -12,7 +12,7 @@ const defultState = {
 
 export default prop => {
   const [IP, setIp] = useState("");
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
 
   const addIP = async ev => {
     ev.preventDefault();

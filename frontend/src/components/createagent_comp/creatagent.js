@@ -9,7 +9,7 @@ import notfi from "../../Utils/notifi_util";
 
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
-  const [msg, setMsg] = useContext(NotifContxt);
+  const [, setMsg] = useContext(NotifContxt);
   const defultState = {
     agent: "",
     firstname: "",

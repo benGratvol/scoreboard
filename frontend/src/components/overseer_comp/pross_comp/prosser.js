@@ -9,7 +9,7 @@ import notfi from "../../../Utils/notifi_util";
 const DefultState = { processors: "" };
 export default prop => {
   const [Pro, setPro] = useState(DefultState);
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
 
   const addPro = async ev => {
     ev.preventDefault();

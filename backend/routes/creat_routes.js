@@ -47,7 +47,7 @@ routes.put("/getAgentbyTeam", TokenAuth, async (req, res) => {
 });
 
 // **********  Users *************
-// AdminAuth;
+
 routes.post("/createUser", AdminAuth, async (req, res) => {
   try {
     const user = await NewUser(req.body).save();

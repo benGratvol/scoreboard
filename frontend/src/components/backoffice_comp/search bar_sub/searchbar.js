@@ -9,22 +9,13 @@ import NotificationsContext from "../../../context/notifications_context";
 import BackOfficeTabil from "./back_off_tabil";
 
 export default () => {
-  const defultState = {
-    from_date: undefined,
-    to_date: undefined,
-    team: "",
-    docs_sent: "",
-    deposit_vertifi: "",
-    free_hand: ""
-  };
-
   const [setings, setSetings] = useState([]);
   const [brands, setBrands] = useState([]);
   const [search_res, setSearch_res] = useState([]);
   const [query, setQuery] = useState({});
 
   const [val] = useContext(UserContext); // ---> use this
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
 
   useEffect(() => {
     (async function run() {
@@ -124,7 +115,7 @@ export default () => {
           <button>Search</button>
         </p>
       </form>
-      <BackOfficeTabil prop={{ search_res: search_res }} />
+      <BackOfficeTabil prop={{ search_res: search_res, role: val.user.role }} />
     </>
   );
 };

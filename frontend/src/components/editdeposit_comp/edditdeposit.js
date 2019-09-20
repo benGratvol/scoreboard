@@ -19,8 +19,6 @@ export default () => {
     ev.preventDefault();
     const url = "/backoffice/searcheditdeposit";
     const jsObj = await Networking.useFetchPut(url, val.token, query);
-
-    console.log(jsObj);
     seteddDeposit(jsObj.data);
   };
   const valChange = ev => {
@@ -28,19 +26,6 @@ export default () => {
   };
   const updatepaylode = ev => {
     setUpdateDeposit({ ...UpdateDeposit, [ev.target.name]: ev.target.value });
-  };
-  const sendpaylode = async ev => {
-    ev.preventDefault();
-    const paylode = {
-      UpdateDeposit: UpdateDeposit,
-      id: query
-    };
-    const url = "/backoffice/updatedeposit";
-    const res = await Networking.useFetchPut(url, val.token, paylode);
-    if (res.sucsses) {
-      const msg = notfi.Sucsses(res.msg);
-      setMsg(msg);
-    }
   };
 
   return (

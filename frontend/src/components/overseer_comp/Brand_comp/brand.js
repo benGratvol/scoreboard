@@ -8,7 +8,7 @@ import notfi from "../../../Utils/notifi_util";
 
 const DefultState = { brandname: "" };
 export default prop => {
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
   const [Brand, setBrand] = useState(DefultState);
 
   const addBrand = async ev => {

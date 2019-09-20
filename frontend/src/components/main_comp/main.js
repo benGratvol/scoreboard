@@ -27,7 +27,6 @@ const LazyBackoffice = lazy(() =>
 
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
-  console.log(val);
   const [msg, setMsg] = useState({
     type: "Sucsses",
     body: `welcome ${val.user.username}`
@@ -76,6 +75,7 @@ export default () => {
               <>
                 <Route exact path="/main/Deposit" component={Deposit} />
                 <Route exact path="/main/Createagent" component={CreateAgent} />
+                <Route exact path="/main/Backoffice" component={Backoffice} />
               </>
             ) : (
               <></>

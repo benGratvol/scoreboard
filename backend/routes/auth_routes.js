@@ -13,6 +13,7 @@ routes.put("/auth", async (req, res) => {
   const user = await User.findOne({ username });
   if (!user) {
     res.json({ suscsses: false, msg: "Auth Fail" });
+    Loger.errlog(`Error log in username `);
   } else {
     bcrypt.compare(password, user.password, (err, bcryptres) => {
       if (err) {
@@ -20,6 +21,8 @@ routes.put("/auth", async (req, res) => {
           suscsses: false,
           msg: "Auth Fail"
         });
+        Loger.errlog(`Error log in `);
+        console.log(err);
       } else {
         if (bcryptres) {
           const userToken = {
@@ -42,6 +45,7 @@ routes.put("/auth", async (req, res) => {
           });
         } else {
           res.json({ suscsses: true, msg: "Auth Fail " });
+          Loger.errlog(`Error log in password`);
         }
       }
     });

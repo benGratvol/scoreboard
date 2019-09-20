@@ -4,7 +4,7 @@ import UserContext from "../../context/user_context";
 import "./login.css";
 
 export default () => {
-  const [vsl, setval] = useContext(UserContext);
+  const [, setval] = useContext(UserContext);
   const [userCerd, setuserCerd] = useState({
     username: "bot-admin",
     password: "Aa123456"

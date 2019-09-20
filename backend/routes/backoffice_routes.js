@@ -23,8 +23,8 @@ routes.get("/setup", async (req, res) => {
 
 // need to fix and clean up !!!--------
 routes.put("/search", async (req, res) => {
-  console.log(req.body);
   try {
+    const query = req.body;
     if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
       const data = await Dep_DB.find({
         client_dor: { $gte: req.body.from_date, $lt: req.body.to_date }
@@ -34,9 +34,7 @@ routes.put("/search", async (req, res) => {
       const data = await Dep_DB.find({ cid: req.body.free_hand });
       res.json({ sucsses: true, msg: "sucsses", data: data });
     } else {
-      const query = req.body;
       const data = await Dep_DB.find(query);
-      console.log(data);
       res.json({ sucsses: true, msg: "sucsses", data: data });
     }
   } catch (err) {
@@ -46,7 +44,6 @@ routes.put("/search", async (req, res) => {
 });
 
 routes.put("/searcheditdeposit", async (req, res) => {
-  console.log(req.body);
   try {
     const data = await Dep_DB.find({ cid: req.body });
     res.json({ sucsses: true, msg: "sucsses", data: data });
@@ -57,7 +54,6 @@ routes.put("/searcheditdeposit", async (req, res) => {
 // end of serch need to fix and clean
 
 routes.put("/update", async (req, res) => {
-  console.log(req.body);
   const query = { _id: req.body._id };
   const { docs_sent, deposit_vertifi } = req.body.update;
   if (docs_sent === "" && deposit_vertifi === "") {
@@ -77,16 +73,13 @@ routes.put("/update", async (req, res) => {
 
 routes.put("/updatedeposit", async (req, res) => {
   const query = { _id: req.body.id };
-
-  console.log(query);
-  console.log(req.body);
-
   try {
     const dbres = await Dep_DB.findOneAndUpdate(query, req.body.UpdateDeposit, {
       upsert: true
     });
 
-    Loger.log({ sucsses: true, msg: "Update Val" });
+    const msg = `Sucsses updateval`;
+    Loger.log(msg);
     res.json({ sucsses: true, msg: "Update Val" });
   } catch (err) {
     Loger.errlog(`Error at :  /updatedeposit `);

@@ -8,7 +8,7 @@ import notfi from "../../../Utils/notifi_util";
 
 const DefultState = { aff: "" };
 export default prop => {
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
   const [Aff, setAff] = useState(DefultState);
 
   const addAFF = async ev => {

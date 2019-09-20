@@ -12,10 +12,11 @@ import VerSum from "./sum_subcpm/verifisum/verifisum";
 import "./back_off_tabil.css";
 
 export default props => {
-  const [msg, setMsg] = useContext(Notifications);
+  const [, setMsg] = useContext(Notifications);
   const [depRes, setDepRes] = useState([]);
   const [update, setUpdaet] = useState({});
-
+  const [role] = useState(props.prop.role);
+  console.log(role);
   useEffect(() => {
     setDepRes(props.prop.search_res);
   }, [props.prop.search_res]);
@@ -70,45 +71,61 @@ export default props => {
                   <td>{client.method}</td>
                   <td>{client.processor}</td>
                   <td>
-                    <select name="deposit_vertifi" onChange={valChange}>
-                      <option>{client.deposit_vertifi} </option>
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
-                      <option value="pending">Pending</option>
-                      <option value="chb">CHB</option>
-                    </select>
+                    {role === "team_manager" ? (
+                      client.deposit_vertifi
+                    ) : (
+                      <select name="deposit_vertifi" onChange={valChange}>
+                        <option>{client.deposit_vertifi} </option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                        <option value="pending">Pending</option>
+                        <option value="chb">CHB</option>
+                      </select>
+                    )}
                   </td>
                   <td>
-                    <select name="docs_sent" onChange={valChange}>
-                      <option>{client.docs_sent}</option>
-                      <option value="sent_request">Sent Request</option>
-                      <option value="has_docs">Has Docs</option>
-                      <option value="no_docs">No Docs</option>
-                    </select>
+                    {role === "team_manager" ? (
+                      client.docs_sent
+                    ) : (
+                      <select name="docs_sent" onChange={valChange}>
+                        <option>{client.docs_sent}</option>
+                        <option value="sent_request">Sent Request</option>
+                        <option value="has_docs">Has Docs</option>
+                        <option value="no_docs">No Docs</option>
+                      </select>
+                    )}
                   </td>
                   <td>{client.affiliate}</td>
                   <td>
-                    <button
-                      onClick={async () => {
-                        const url = "/backoffice/update";
-                        const paylode = {
-                          _id: client._id,
-                          update: update
-                        };
-                        // need to add  keey
-                        const res = await network.useFetchPut(url, "", paylode);
-                        if (res.sucsses) {
-                          const msg = notfi.Sucsses(res.msg);
-                          setMsg(msg);
-                        } else {
-                          const msg = notfi.Fail(res.msg);
-                          setMsg(msg);
-                        }
-                        setUpdaet({});
-                      }}
-                    >
-                      Save
-                    </button>
+                    {role === "team_manager" ? (
+                      <></>
+                    ) : (
+                      <button
+                        onClick={async () => {
+                          const url = "/backoffice/update";
+                          const paylode = {
+                            _id: client._id,
+                            update: update
+                          };
+                          // need to add  keey
+                          const res = await network.useFetchPut(
+                            url,
+                            "",
+                            paylode
+                          );
+                          if (res.sucsses) {
+                            const msg = notfi.Sucsses(res.msg);
+                            setMsg(msg);
+                          } else {
+                            const msg = notfi.Fail(res.msg);
+                            setMsg(msg);
+                          }
+                          setUpdaet({});
+                        }}
+                      >
+                        Save
+                      </button>
+                    )}
                   </td>
                 </tr>
               );

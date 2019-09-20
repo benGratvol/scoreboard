@@ -30,12 +30,15 @@ class Loger {
   log(msg) {
     const date = Date.now();
     const timestamp = Timestamp.timeConverter(date);
-    console.log(LogCollor.FgGreen, `[*] ${msg} | ${timestamp} [*]`);
+    const { FgGreen, Bright } = LogCollor;
+    console.log(FgGreen, Bright, `[*] ${msg} | ${timestamp} [*]`);
   }
   errlog(msg) {
     const date = Date.now();
     const timestamp = Timestamp.timeConverter(date);
-    console.log(LogCollor.FgRed, `[-] ${msg} | ${timestamp}  [-]`);
+    const { FgRed, Bright } = LogCollor;
+
+    console.log(FgRed, Bright, `[-] ${msg} | ${timestamp}  [-]`);
   }
 }
 

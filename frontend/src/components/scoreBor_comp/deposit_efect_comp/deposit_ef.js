@@ -21,9 +21,9 @@ export default prop => {
     <div>
       <h3 className="deposit_ef_agent">
         {" "}
-        <img src={crown} />
+        <img src={crown} alt="crown" />
         {agent}
-        <img src={crown} />
+        <img src={crown} alt="crown" />
       </h3>
 
       <div className="deposit_ef-wraper">

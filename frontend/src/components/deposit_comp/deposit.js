@@ -23,11 +23,10 @@ export default () => {
     cid: "",
     affiliate: ""
   };
-  const [msg, setMsg] = useContext(NotificationsContext);
+  const [, setMsg] = useContext(NotificationsContext);
   const [Deposit, setDeposit] = useState(defultState);
   const [agents, setAgents] = useState([]);
   const [loding, setLoding] = useState(false);
-
   const [Prosseor, setProsseor] = useState([]);
   const [AFF, setAff] = useState([]);
   const [Brands, setBrands] = useState([]);
