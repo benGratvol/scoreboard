@@ -31,3 +31,40 @@
     transform: rotate(360deg);
   }
 }
+/* new cool button */
+
+button {
+  border-top: 1px solid #96d1f8;
+  background: #65a9d7;
+  background: -webkit-gradient(linear, left top, left bottom, from(#afcce0), to(#65a9d7));
+  background: -webkit-linear-gradient(top, #afcce0, #65a9d7);
+  background: -moz-linear-gradient(top, #afcce0, #65a9d7);
+  background: -ms-linear-gradient(top, #afcce0, #65a9d7);
+  background: -o-linear-gradient(top, #afcce0, #65a9d7);
+  padding: 4.5px 9px;
+  -webkit-border-radius: 13px;
+  -moz-border-radius: 13px;
+  border-radius: 13px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: #0f0f0f;
+  font-size: 15px;
+  font-family: Georgia, Serif;
+  text-decoration: none;
+  vertical-align: middle;
+  }
+button:hover {
+  border-top-color: #28597a;
+  background: #28597a;
+  color: #ccc;
+  }
+button:active {
+  border-top-color: #1b435e;
+  background: #1b435e;
+  }
+
+
+
+

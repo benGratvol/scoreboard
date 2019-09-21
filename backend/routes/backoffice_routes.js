@@ -5,7 +5,9 @@ const Dep_DB = require("../schemas/deposit_schema");
 const Agent_DB = require("../schemas/agent_schema");
 const Brand_DB = require("../schemas/brand_schema");
 
+const Authcheck = require("../routes_middleware/token_auth");
 const Loger = require("../utils/loger");
+
 routes.get("/setup", async (req, res) => {
   try {
     const agents = await Agent_DB.find().select("agent team");
@@ -22,7 +24,7 @@ routes.get("/setup", async (req, res) => {
 });
 
 // need to fix and clean up !!!--------
-routes.put("/search", async (req, res) => {
+routes.put("/search", Authcheck, async (req, res) => {
   try {
     const query = req.body;
     if (req.body.from_date !== undefined && req.body.to_date !== undefined) {
@@ -43,7 +45,7 @@ routes.put("/search", async (req, res) => {
   }
 });
 
-routes.put("/searcheditdeposit", async (req, res) => {
+routes.put("/searcheditdeposit", Authcheck, async (req, res) => {
   try {
     const data = await Dep_DB.find({ cid: req.body });
     res.json({ sucsses: true, msg: "sucsses", data: data });
@@ -53,7 +55,7 @@ routes.put("/searcheditdeposit", async (req, res) => {
 });
 // end of serch need to fix and clean
 
-routes.put("/update", async (req, res) => {
+routes.put("/update", Authcheck, async (req, res) => {
   const query = { _id: req.body._id };
   const { docs_sent, deposit_vertifi } = req.body.update;
   if (docs_sent === "" && deposit_vertifi === "") {
@@ -71,7 +73,7 @@ routes.put("/update", async (req, res) => {
   }
 });
 
-routes.put("/updatedeposit", async (req, res) => {
+routes.put("/updatedeposit", Authcheck, async (req, res) => {
   const query = { _id: req.body.id };
   try {
     const dbres = await Dep_DB.findOneAndUpdate(query, req.body.UpdateDeposit, {
