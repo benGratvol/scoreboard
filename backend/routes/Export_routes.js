@@ -10,6 +10,8 @@ const prosseor_routes = require("./prosseor_routes");
 const exporttofile_routes = require("./exporttofile_routes");
 const whitlis_routes = require("./whitlis_routes");
 
+const api_routs = require("./api_routs");
+
 // ----------------- end of routes ----------------
 
 const allroutes = [
@@ -48,6 +50,10 @@ const allroutes = [
   {
     file: whitlis_routes,
     path: "/blacklist"
+  },
+  {
+    file: api_routs,
+    path: "/api"
   }
 ];
 

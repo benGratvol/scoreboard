@@ -6,19 +6,19 @@ import "./table.css";
 //   { agent: 'agent3', total: 400, count: 2 },
 //   { agent: 'best agent', total: 1200, count: 4 } ]
 export default prop => {
-  console.log(prop);
   const { bordname, coller, data } = prop.prop;
-  console.log(data);
   return (
     <div>
       <div className="deposits">
         <h2 className="bord_name">{bordname}</h2>
         <table style={{ backgroundColor: `${coller}` }}>
-          <tr>
-            <th>Agent</th>
-            <th>Deposit</th>
-            <th>Total</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Deposit</th>
+              <th>Total</th>
+            </tr>
+          </thead>
           {data === undefined ? (
             <></>
           ) : (

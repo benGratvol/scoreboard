@@ -115,7 +115,9 @@ export default () => {
           <button>Search</button>
         </p>
       </form>
-      <BackOfficeTabil prop={{ search_res: search_res, role: val.user.role }} />
+      <BackOfficeTabil
+        prop={{ search_res: search_res, role: val.user.role, token: val.token }}
+      />
     </>
   );
 };

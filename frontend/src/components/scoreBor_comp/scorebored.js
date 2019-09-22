@@ -41,7 +41,7 @@ export default () => {
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          console.log("data................", { data });
+          console.log("data................");
           total = data.data.monthly.reduce((acc, curr) => {
             return acc + curr.total;
           }, 0);
@@ -61,7 +61,6 @@ export default () => {
               setTotalDaily(toaldayle);
             } else {
               setDepAffect(true);
-              console.log(data.data.daily);
               setDayley(data.data.daily);
               setMonthly(data.data.monthly);
               setLastDeposit(data.data.lastDep);

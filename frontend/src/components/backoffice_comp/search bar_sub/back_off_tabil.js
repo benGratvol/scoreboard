@@ -16,7 +16,8 @@ export default props => {
   const [depRes, setDepRes] = useState([]);
   const [update, setUpdaet] = useState({});
   const [role] = useState(props.prop.role);
-  console.log(role);
+  const [token] = useState(props.prop.token);
+
   useEffect(() => {
     setDepRes(props.prop.search_res);
   }, [props.prop.search_res]);
@@ -110,7 +111,7 @@ export default props => {
                           // need to add  keey
                           const res = await network.useFetchPut(
                             url,
-                            "",
+                            token,
                             paylode
                           );
                           if (res.sucsses) {

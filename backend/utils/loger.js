@@ -1,4 +1,5 @@
 const Timestamp = require("./time_format");
+const SendMail = require("../bots/mail_bot/mailbot");
 
 const LogCollor = {
   Reset: "\x1b[0m",
@@ -37,8 +38,20 @@ class Loger {
     const date = Date.now();
     const timestamp = Timestamp.timeConverter(date);
     const { FgRed, Bright } = LogCollor;
-
     console.log(FgRed, Bright, `[-] ${msg} | ${timestamp}  [-]`);
+  }
+  async mailErrorlog(msg, err) {
+    const date = Date.now();
+    const timestamp = Timestamp.timeConverter(date);
+    const { FgRed, Bright } = LogCollor;
+    console.log(FgRed, Bright, `[-] ${msg} | ${timestamp}  [-]`);
+    console.log(err);
+    const res = await SendMail.Errormail(err);
+    if (res) {
+      this.log(`Email was Send`);
+    } else {
+      this.errlog(`Faile to send mail `);
+    }
   }
 }
 

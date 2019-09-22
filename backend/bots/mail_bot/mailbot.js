@@ -23,20 +23,26 @@ const sendMail = {
     });
     return info;
   },
-  Errormail: async () => {
-    const errMessage = "lalalala";
+  Errormail: async err => {
+    const errMessage = err;
     const mailcontent = `
     [-!-] THERE AWS A ERROR IN [-!-]
     error log ----> \n
     ${errMessage} 
     `;
-    const info = await this.transporter.sendMail({
-      from: mail_config.user,
-      to: "c2212152@urhen.com",
-      subject: "THERE AWS A ERROR IN ",
-      text: mailcontent
-    });
-    return info;
+    try {
+      const info = await this.transporter.sendMail({
+        from: mail_config.user,
+        to: mail_config.user,
+        subject: "THERE AWS A ERROR IN ",
+        text: mailcontent
+      });
+      //   console.log(info.messageId);
+      return info;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
   },
 
   byHTMLMail: async mailObj => {
@@ -84,5 +90,6 @@ const sendMail = {
 
 const message = Object.create(sendMail);
 message.init();
-message.Errormail();
-module.exports = sendMail;
+// message.Errormail();
+// module.exports = Object.create(sendMail);
+module.exports = message;

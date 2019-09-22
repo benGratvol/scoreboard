@@ -10,7 +10,6 @@ export default () => {
     (async () => {
       const url = "/backoffice/verifi";
       const jsonObj = await Net.useFetch(url);
-      console.log(jsonObj.data);
       setsumVerifi(jsonObj.data);
     })();
   }, []);
