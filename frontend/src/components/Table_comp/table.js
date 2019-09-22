@@ -2,9 +2,7 @@ import React from "react";
 
 import crown from "../../assets/images/crown.png";
 import "./table.css";
-// [ { agent: 'agent2', total: 400, count: 2 },
-//   { agent: 'agent3', total: 400, count: 2 },
-//   { agent: 'best agent', total: 1200, count: 4 } ]
+
 export default prop => {
   const { bordname, coller, data } = prop.prop;
   return (
