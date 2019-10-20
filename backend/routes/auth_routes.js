@@ -44,7 +44,7 @@ routes.put("/auth", async (req, res) => {
             }
           });
         } else {
-          res.json({ suscsses: true, msg: "Auth Fail " });
+          res.json({ suscsses: false, msg: "Auth Fail " });
           Loger.errlog(`Error log in password`);
         }
       }
