@@ -33,7 +33,9 @@ routes.put("/auth", async (req, res) => {
           };
           jwt.sign(userToken, JWT_consfig.Secret, (err, token) => {
             if (err) {
-              res.json({ suscsses: true, msg: "Auth Fail Token" });
+              res.json({ suscsses: false, msg: "Auth Fail" });
+              Loger.errlog("Auth Fail Token");
+              console.log(err);
             } else {
               res.json({
                 suscsses: true,
