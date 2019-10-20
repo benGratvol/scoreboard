@@ -27,7 +27,7 @@ export default () => {
       setVisible(false);
       setMsg("");
     }, 3000);
-  }, [msg]);
+  }, [msg, setMsg]); // new 13/10
   return (
     // <div className="notificatio-wraper">
     <div className="">

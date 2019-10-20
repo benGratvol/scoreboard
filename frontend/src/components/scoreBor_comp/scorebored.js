@@ -29,9 +29,9 @@ export default () => {
   const [theTotal, setTheTotal] = useState(0);
   const [TotalDaily, setTotalDaily] = useState(0);
   const [LastDeposit, setLastDeposit] = useState({});
-  let Total = 0;
 
   useEffect(() => {
+    let Total = 0;
     let time = 0;
     let total = 0;
     let runone = true;
@@ -41,7 +41,7 @@ export default () => {
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          console.log("data................");
+          console.log("data................", { data });
           total = data.data.monthly.reduce((acc, curr) => {
             return acc + curr.total;
           }, 0);
@@ -61,6 +61,7 @@ export default () => {
               setTotalDaily(toaldayle);
             } else {
               setDepAffect(true);
+              console.log("daily", data.data.daily);
               setDayley(data.data.daily);
               setMonthly(data.data.monthly);
               setLastDeposit(data.data.lastDep);
@@ -68,7 +69,7 @@ export default () => {
               time = 0;
               setTheTotal(Total);
               const toaldayle = data.data.daily.reduce(
-                (acoume, num) => (acoume = acoume + num),
+                (acoume, num) => (acoume = acoume + num.total),
                 0
               );
               setTotalDaily(toaldayle);

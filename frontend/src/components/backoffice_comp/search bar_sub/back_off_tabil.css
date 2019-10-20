@@ -3,6 +3,7 @@
 .search-form{
     display: flex;
     height: 40px;
+    margin-top: 35px;
 }
 .search-form  select {
     position: relative;

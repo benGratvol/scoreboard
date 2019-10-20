@@ -74,7 +74,7 @@ export default () => {
   // get Users Team
   useEffect(() => {
     setup();
-  }, []);
+  }, []); // new 13/10 remove set up array
   //----------    optimiz this
   const setup = async () => {
     const token = val.token;

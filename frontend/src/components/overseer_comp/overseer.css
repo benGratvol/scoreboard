@@ -1,3 +1,9 @@
+.main-over-wraper{
+    margin-top: 35px;
+
+}
+
+
 .over-wraper {
     display: grid ; 
     grid-template-columns: 1fr 1fr 1fr 

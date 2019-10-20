@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState, lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import Nav from "../nav_comp/nav";
+// import Nav from "../nav_comp/nav";   --------------> old
 import Notfound from "../notfound_comp/notfound";
 import Deposit from "../deposit_comp/deposit";
 import CreateAgent from "../createagent_comp/creatagent";
@@ -18,12 +18,14 @@ import UserContext from "../../context/user_context";
 import NotificationsContext from "../../context/notifications_context";
 
 //----------------------------- layzey
+import SidNav from "../nav_comp/new_nav/nav";
 const LazyDeposit = lazy(() => import("../deposit_comp/deposit"));
-const LazyBackoffice = lazy(() =>
-  import("../backoffice_comp/search bar_sub/searchbar")
-);
-
+// const LazyBackoffice = lazy(() =>
+//   import("../backoffice_comp/search bar_sub/searchbar")
+// );
 //----------------------------- End layzey
+
+// new
 
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
@@ -48,7 +50,8 @@ export default () => {
           {val.user.role === "scoreboard" ? (
             <Scoreboard />
           ) : (
-            <Nav prop={{ name: val.user.username, role: val.user.role }} />
+            // <Nav prop={{ name: val.user.username, role: val.user.role }} />
+            <SidNav prop={{ name: val.user.username, role: val.user.role }} />
           )}
           <br />
           <Switch>
@@ -65,17 +68,14 @@ export default () => {
               </>
             ) : val.user.role === "support" ? (
               <Suspense fallback={<div>Loding...</div>}>
-                <Route
-                  exact
-                  path="/main/Backoffice"
-                  component={LazyBackoffice}
-                />
+                <Route exact path="/main/Backoffice" component={Backoffice} />
               </Suspense>
             ) : val.user.role === "team_manager" ? (
               <>
                 <Route exact path="/main/Deposit" component={Deposit} />
                 <Route exact path="/main/Createagent" component={CreateAgent} />
                 <Route exact path="/main/Backoffice" component={Backoffice} />
+                <Route exact path="/main/Edit" component={EdditDeposit} />
               </>
             ) : (
               <></>

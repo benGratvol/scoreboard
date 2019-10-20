@@ -5,7 +5,7 @@ import "./nav.css";
 import { Link } from "react-router-dom";
 // nav bar css class navbar navbar-expand-lg navbar-light bg-light
 export default prop => {
-  const { name, role } = prop.prop;
+  const { role } = prop.prop;
   return (
     <div className="nav-wraper">
       {/* <h4>
