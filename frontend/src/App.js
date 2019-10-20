@@ -8,7 +8,6 @@ import UserContext from "./context/user_context";
 
 function App() {
   const [val, setVal] = useState(null);
-  // const providerVal = useMemo(() => { val, setVal }, [val, setVal]);
   const providerVal = useMemo(() => [val, setVal], [val, setVal]);
 
   return (
@@ -29,23 +28,6 @@ function App() {
       </body>
     </div>
   );
-
-  // ****************  Old *****************
-  // return (
-  //   <div className="App">
-  //     <header className="" />
-  //     <Router>
-  //       <Switch>
-  //         <Route exact path="/" component={Login} />
-  //         <Route exact path="/main" component={Main} />
-  //         <Route exact path="/scoreboard" component={Scoreboard} />
-  //         <Route exact path="/deposit" component={Deposit} />
-  //         <Route exact path="/creatUser" component={CreatUser} />
-  //         <Route component={Notfound} />
-  //       </Switch>
-  //     </Router>
-  //   </div>
-  // );
 }
 
 export default App;

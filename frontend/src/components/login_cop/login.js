@@ -22,10 +22,13 @@ export default () => {
     })
       .then(res => res.json())
       .then(data => {
-        // data.sucsses ? setMsg(data.msg) : setMsg(data.msg);
-        const user = data.user;
-        const token = data.token;
-        setval({ user: user, token: token });
+        if (data.suscsses) {
+          const user = data.user;
+          const token = data.token;
+          setval({ user: user, token: token });
+        } else {
+          setval(false);
+        }
       })
       .catch(err => {
         console.log(err);
