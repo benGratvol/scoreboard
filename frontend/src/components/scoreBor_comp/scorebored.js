@@ -90,7 +90,7 @@ export default () => {
   return (
     <div>
       <h3>Team : {val.user.team}</h3>
-      <h3>Daily Toatl : {TotalDaily} $</h3>
+      <h3>Daily Toatl :{TotalDaily}$</h3>
       <div className="">
         {depAffect ? (
           <DepositAffect agent={LastDeposit.agent} />

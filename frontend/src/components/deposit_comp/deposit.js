@@ -10,7 +10,7 @@ import inputVal from "../../Utils/dataValedeter_util";
 // ************************* End Utils  *******
 
 export default () => {
-  const [val] = useContext(UserContext); // ---> use this
+  const [val] = useContext(UserContext);
   const defultState = {
     agent: "",
     amount: "",
@@ -34,64 +34,56 @@ export default () => {
   const ValueChange = ev => {
     setDeposit({ ...Deposit, [ev.target.name]: ev.target.value });
   };
-  const addDeposit = ev => {
+  const addDeposit = async ev => {
     const valinput = inputVal.notEmpty(Deposit);
     setLoding(true);
     ev.preventDefault();
     if (!valinput.err) {
+      setLoding(false);
       const url = "/stats/addDeposit";
-      fetch(url, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          authorization: val.token
-        },
-        body: JSON.stringify(Deposit)
-      })
-        .then(res => res.json())
-        .then(data => {
-          setLoding(false);
-
-          if (data.sucsses) {
-            const msg = notfi.Sucsses(data.msg);
-            setMsg(msg);
-            setDeposit(defultState);
-          } else {
-            const msg = notfi.Fail(data.msg);
-            setMsg(msg);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const token = val.token;
+      try {
+        const res = await network.useFetchPost(url, token, Deposit);
+        if (res.sucsses) {
+          const msg = notfi.Sucsses(res.msg);
+          setMsg(msg);
+          setDeposit(defultState);
+        } else {
+          const msg = notfi.Fail(res.msg);
+          setMsg(msg);
+        }
+      } catch (err) {
+        const msg = notfi.Fail(err);
+        setMsg(msg);
+      }
     } else {
       const msg = notfi.Warning(valinput.errMessage);
       setMsg(msg);
       setLoding(false);
     }
   };
-  // get Users Team
+
   useEffect(() => {
     setup();
-  }, []); // new 13/10 remove set up array
-  //----------    optimiz this
+  }, []);
   const setup = async () => {
     const token = val.token;
     const Purl = "/setings/getprosseor";
     const Burl = "/setings/getbrands";
     const Aurl = "/setings/getaff";
     const Turl = "/users/getAgentbyTeam";
-    const prosseor = await network.useFetchWithToken(Purl, token);
-    const Aff = await network.useFetchWithToken(Aurl, token);
-    const Brands = await network.useFetchWithToken(Burl, token);
-    const Team = await network.useFetchPut(Turl, val.token, {
-      team: val.user.team
-    });
-    setProsseor(prosseor.data);
-    setAff(Aff.data);
-    setAgents(Team.data);
-    setBrands(Brands.data);
+    const res = await Promise.all([
+      network.useFetchWithToken(Purl, token),
+      network.useFetchWithToken(Aurl, token),
+      network.useFetchWithToken(Burl, token),
+      network.useFetchPut(Turl, token, {
+        team: val.user.team
+      })
+    ]);
+    setProsseor(res[0].data);
+    setAff(res[1].data);
+    setBrands(res[2].data);
+    setAgents(res[3].data);
   };
 
   // *********************  end of  new 25/7/2019 ******************
