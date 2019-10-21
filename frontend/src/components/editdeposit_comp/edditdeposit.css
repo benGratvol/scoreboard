@@ -3,39 +3,37 @@
 	margin-top: 35px;
  
 }
-.editDeposit_wraper p{
+.editDeposit_wraper h2{
     background-color:#99aab5;
 
 }
-/* .editDeposit_wraper h3{
-    position: relative ; 
-    background-color: #7289da; 
-    width: 90%;
-    left: 5%;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border-style: solid;
-    border-color: #2c2f33
- 
-} */
+
 
 .eddist_form{
     border-style: solid ; 
-    border-color: blueviolet ; 
+	border-color: blueviolet ;
+	box-shadow: #276873; 
 }
 .serch-form{
-    position: relative;
-    padding: 10px ; 
+    /* position: relative; */
+	padding: 10px ;
     background-color:#99aab5;
 }
 .serch-form input {
+	height: 30px;
+	padding-right: 5px;
+    margin-right: 10px;
     width:  30% ; 
 }
 
 .serch-form button {
+	padding-right: 5px;
     width:  10% ; 
 }
-
+.tabil_wraper{
+	margin-top: 30px;
+	margin-left: 10px;
+}
 
 
 

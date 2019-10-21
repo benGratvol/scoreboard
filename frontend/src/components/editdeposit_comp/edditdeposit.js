@@ -7,6 +7,11 @@ import notfi from "../../Utils/notifi_util";
 
 import "./edditdeposit.css";
 
+/* ***************   TODO
+   1) check input befor posting to server  
+
+*/
+
 export default () => {
   const [val] = useContext(UserContext); // ---> use this
   const [, setMsg] = useContext(NotificationsContext);
@@ -30,14 +35,13 @@ export default () => {
 
   return (
     <div className="editDeposit_wraper">
-      <p>
-        <from className="serch-form">
-          <input type="text" name={"_id"} onChange={valChange}></input>
-          <button type="submit" onClick={getDeposit}>
-            Search
-          </button>
-        </from>
-      </p>
+      <from className="serch-form">
+        <input type="text" name={"_id"} onChange={valChange}></input>
+        <button type="submit" onClick={getDeposit}>
+          Search
+        </button>
+      </from>
+
       <div></div>
       <div className="tabil_wraper">
         <table>
@@ -142,21 +146,22 @@ export default () => {
   );
 };
 
-// -----------------examel res
-// _id: "5d6bdce6046d5f1e84f06738"
-// affiliate: "aff1"
-// agent: "meeeee"
-// amount: 1832
-// amount_in_usd: 2017.121768
-// brand: "coolBrands"
-// cid: "123123"
-// client_dor: "2019-09-16"
-// currency: "EUR"
-// depositDate: "09-01-2019"
-// depositMonth: "09-2019" ​​​
-// deposit_vertifi: "no"
-//  docs_sent: "no_docs"
-//  exchangeDate: "19 Jan 1970 5:22:29"
-//  method: "BTC"
-//  processor: "fastcash"
-//  team: "cool-team"
+/* -----------------exampel of a respons 
+_id: "5d6bdce6046d5f1e84f06738"
+affiliate: "aff1"
+agent: "meeeee"
+amount: 1832
+amount_in_usd: 2017.121768
+brand: "coolBrands"
+cid: "123123"
+client_dor: "2019-09-16"
+currency: "EUR"
+depositDate: "09-01-2019"
+depositMonth: "09-2019" ​​​
+deposit_vertifi: "no"
+ docs_sent: "no_docs"
+ exchangeDate: "19 Jan 1970 5:22:29"
+ method: "BTC"
+ processor: "fastcash"
+ team: "cool-team"
+*/

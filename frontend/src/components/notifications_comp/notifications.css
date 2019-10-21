@@ -58,14 +58,12 @@ float: left;
 
 .fadeOut .notificatio-wraper {
     width: 100%;
-    /* background-color: SpringGreen  ; */
     opacity:0;
-    transition: width 0.0s 0.0s, height 0.0s 0.0s, opacity 1.0s;
+    transition: width 0.0s 0.0s, height 0.0s 0.0s, opacity 1.0 1.0s;
     box-shadow: 5px 10px gray;
 }
 .fadeIn .notificatio-wraper{
     width: 100%;
-    /* background-color: SpringGreen  ; */
     opacity:1;
     transition: width 0.0s, height 0.0s, opacity 5.0s 1.0s;
     box-shadow: 5px 10px gray;
