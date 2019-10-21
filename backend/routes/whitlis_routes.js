@@ -18,6 +18,20 @@ route.post("/addIP", AuthAdmin, async (req, res) => {
   }
 });
 
+route.get("/checkip", async (req, res) => {
+  const reqIP = req.connection.remoteAddress;
+  const ip = reqIP.replace("::ffff:", "");
+  const ipwhitelist = await IP_DB.find({ ip: ip, active: true });
+  if (ipwhitelist <= 0) {
+    res.status(403).send("Forbidden");
+    const msg = `Auth IP  Fail check from ip : ${reqIP} path : ${req.url}`;
+    Loger.errlog(msg);
+  } else {
+    Loger.log(`${ip} landed on log in page`);
+    res.json({ sucsses: true });
+  }
+});
+
 route.put("/banserver", async (req, res) => {
   const ip = req.body.ip;
   try {
